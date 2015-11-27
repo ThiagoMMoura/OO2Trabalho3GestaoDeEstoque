@@ -8,7 +8,8 @@ package br.edu.ulbra.gde;
 public class Main {
 
     public static void main(String[] args) {
-        
+        FrameMain frame = new FrameMain();
+        frame.setVisible(true);
     }
 
 }
