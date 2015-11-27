@@ -14,4 +14,6 @@ public class Produto {
     private float preco;
     private float lucro;
     private int quantidade;
+    private String unidade;
+    private boolean ativo;
 }
