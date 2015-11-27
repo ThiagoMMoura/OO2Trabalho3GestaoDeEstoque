@@ -16,5 +16,5 @@ Temporary Items
 *.xml
 *.mf
 *.properties
-Build
 /dist/
+/build/
