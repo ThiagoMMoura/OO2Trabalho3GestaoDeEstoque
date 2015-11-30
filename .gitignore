@@ -18,3 +18,5 @@ Temporary Items
 *.properties
 /dist/
 /build/
+/OO2Trabalho3GestaoDeEstoque/nbproject/private/
+/nbproject/private/

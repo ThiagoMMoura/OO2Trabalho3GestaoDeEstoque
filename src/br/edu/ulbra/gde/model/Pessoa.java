@@ -7,18 +7,18 @@ package br.edu.ulbra.gde.model;
  */
 public class Pessoa {
     private int id;
-    private String razao_social;
-    private int id_endereco;
-    private int numero_endereco;
-    private String complemento_endereco;
+    private String razaoSocial;
+    private int idEndereco;
+    private int numeroEndereco;
+    private String complementoEndereco;
     private Endereco endereco;
 
-    public Pessoa(int id, String razao_social, int id_endereco, int numero_endereco, String complemento_endereco) {
+    public Pessoa(int id, String razaoSocial, int idEndereco, int numeroEndereco, String complementoEndereco) {
         this.id = id;
-        this.razao_social = razao_social;
-        this.id_endereco = id_endereco;
-        this.numero_endereco = numero_endereco;
-        this.complemento_endereco = complemento_endereco;
+        this.razaoSocial = razaoSocial;
+        this.idEndereco = idEndereco;
+        this.numeroEndereco = numeroEndereco;
+        this.complementoEndereco = complementoEndereco;
     }
 
     public Pessoa() {
@@ -33,36 +33,36 @@ public class Pessoa {
         this.id = id;
     }
 
-    public String getRazao_social() {
-        return razao_social;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setRazao_social(String razao_social) {
-        this.razao_social = razao_social;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
-    public int getId_endereco() {
-        return id_endereco;
+    public int getIdEndereco() {
+        return idEndereco;
     }
 
-    public void setId_endereco(int id_endereco) {
-        this.id_endereco = id_endereco;
+    public void setIdEndereco(int idEndereco) {
+        this.idEndereco = idEndereco;
     }
 
-    public int getNumero_endereco() {
-        return numero_endereco;
+    public int getNumeroEndereco() {
+        return numeroEndereco;
     }
 
-    public void setNumero_endereco(int numero_endereco) {
-        this.numero_endereco = numero_endereco;
+    public void setNumeroEndereco(int numeroEndereco) {
+        this.numeroEndereco = numeroEndereco;
     }
 
-    public String getComplemento_endereco() {
-        return complemento_endereco;
+    public String getComplementoEndereco() {
+        return complementoEndereco;
     }
 
-    public void setComplemento_endereco(String complemento_endereco) {
-        this.complemento_endereco = complemento_endereco;
+    public void setComplementoEndereco(String complementoEndereco) {
+        this.complementoEndereco = complementoEndereco;
     }
 
 }
