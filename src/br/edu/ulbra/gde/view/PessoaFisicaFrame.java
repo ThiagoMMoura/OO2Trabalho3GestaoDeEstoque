@@ -10,7 +10,7 @@ package br.edu.ulbra.gde.view;
  * @author Thiago Moura
  */
 public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
-
+    private String[] estados;
     /**
      * Creates new form ClienteFrame
      */
@@ -95,6 +95,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         setToolTipText("");
 
         guiasPessoaFisica.setToolTipText("");
+        guiasPessoaFisica.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                guiasPessoaFisicaStateChanged(evt);
+            }
+        });
 
         guiaCadastroPessoaFisica.setLayout(new java.awt.BorderLayout());
 
@@ -187,7 +192,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
         jLabel11.setText("UF:");
 
-        cmpUF.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmpUF.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC - Acre", "AM - Amazonas", "AP - Amapa", "RS - Rio Grande do Sul" }));
 
         jLabel12.setText("Número:");
 
@@ -491,10 +496,25 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         pnlBarraFerramentas.setPreferredSize(new java.awt.Dimension(536, 60));
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnSairBusca.setText("Sair");
+        btnSairBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairBuscaActionPerformed(evt);
+            }
+        });
 
         btnIncluir.setText("Incluir");
+        btnIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncluirActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
 
@@ -534,6 +554,34 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void guiasPessoaFisicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_guiasPessoaFisicaStateChanged
+        if(guiasPessoaFisica.getSelectedIndex()==0){
+            btnIncluir.setVisible(false);
+            btnSalvar.setVisible(true);
+            btnExcluir.setVisible(true);
+            btnSairBusca.setVisible(true);
+            btnEditar.setVisible(false);
+        }else{
+            btnIncluir.setVisible(true);
+            btnSalvar.setVisible(false);
+            btnExcluir.setVisible(true);
+            btnSairBusca.setVisible(true);
+            btnEditar.setVisible(true);
+        }
+    }//GEN-LAST:event_guiasPessoaFisicaStateChanged
+
+    private void btnSairBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairBuscaActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSairBuscaActionPerformed
+
+    private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
+        guiasPessoaFisica.setSelectedIndex(0);
+    }//GEN-LAST:event_btnIncluirActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        guiasPessoaFisica.setSelectedIndex(0);
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
