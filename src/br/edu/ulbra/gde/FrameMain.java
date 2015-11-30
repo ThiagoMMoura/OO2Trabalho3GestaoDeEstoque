@@ -7,8 +7,6 @@ package br.edu.ulbra.gde;
 
 import br.edu.ulbra.gde.view.*;
 import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -102,10 +100,12 @@ public class FrameMain extends javax.swing.JFrame {
                 pFisica.setIcon(false);
                 pFisica.setSelected(true);
             } catch (PropertyVetoException ex) {
-                JOptionPane.showConfirmDialog(this, "Um erro impediu que essa janela fosse reaberta,\numa nova janela será aberta!", "Erro ao abrir janela", JOptionPane.OK_OPTION,JOptionPane.ERROR_MESSAGE);
-                pFisica = new PessoaFisicaFrame();
-                desktopMain.add(pFisica);
-                pFisica.setVisible(true);
+                int res = JOptionPane.showConfirmDialog(this, "Está janela já está aberta, mas um erro impede ela de ser reaberta.\nVocê deseja abrir uma nova janela?", "Erro ao abrir janela", JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE);
+                if(res==JOptionPane.YES_OPTION){
+                    pFisica = new PessoaFisicaFrame();
+                    desktopMain.add(pFisica);
+                    pFisica.setVisible(true);
+                }
             }
         }else{
             pFisica = new PessoaFisicaFrame();
@@ -120,10 +120,12 @@ public class FrameMain extends javax.swing.JFrame {
                 pJuridica.setIcon(false);
                 pJuridica.setSelected(true);
             } catch (PropertyVetoException ex) {
-                JOptionPane.showConfirmDialog(this, "Um erro impediu que essa janela fosse reaberta,\numa nova janela será aberta!", "Erro ao abrir janela", JOptionPane.OK_OPTION,JOptionPane.ERROR_MESSAGE);
-                pJuridica = new PessoaJuridicaFrame();
-                desktopMain.add(pJuridica);
-                pJuridica.setVisible(true);
+                int res = JOptionPane.showConfirmDialog(this, "Está janela já está aberta, mas um erro impede ela de ser reaberta.\nVocê deseja abrir uma nova janela?", "Erro ao abrir janela", JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE);
+                if(res==JOptionPane.YES_OPTION){
+                    pJuridica = new PessoaJuridicaFrame();
+                    desktopMain.add(pJuridica);
+                    pJuridica.setVisible(true);
+                }
             }
         }else{
             pJuridica = new PessoaJuridicaFrame();
