@@ -1,4 +1,3 @@
-
 package br.edu.ulbra.gde.model;
 
 /**
@@ -8,25 +7,25 @@ package br.edu.ulbra.gde.model;
 public class PessoaJuridica {
 
     private int cnpj;
-    private int id_pessoa;
-    private String nome_fantasia;
-    private int inscricao_estadual;
+    private int idPessoa;
+    private String nomeFantasia;
+    private int inscricaoEstadual;
     private Pessoa pessoa;
 
-    public PessoaJuridica(int cnpj, int id_pessoa, String nome_fantasia, int inscricao_estadual, Pessoa pessoa) {
+    public PessoaJuridica(int cnpj, int idPessoa, String nomeFantasia, int inscricaoEstadual, Pessoa pessoa) {
         this.cnpj = cnpj;
-        this.id_pessoa = id_pessoa;
-        this.nome_fantasia = nome_fantasia;
-        this.inscricao_estadual = inscricao_estadual;
+        this.idPessoa = idPessoa;
+        this.nomeFantasia = nomeFantasia;
+        this.inscricaoEstadual = inscricaoEstadual;
         this.pessoa = pessoa;
     }
 
-    public PessoaJuridica(int cnpj, int id_pessoa, String nome_fantasia, int inscricao_estadual) {
-        this(cnpj,id_pessoa,nome_fantasia,inscricao_estadual,null);
+    public PessoaJuridica(int cnpj, int idPessoa, String nomeFantasia, int inscricaoEstadual) {
+        this(cnpj, idPessoa, nomeFantasia, inscricaoEstadual, null);
     }
 
     public PessoaJuridica() {
-        this(0,0,null,0);
+        this(0, 0, null, 0);
     }
 
     public int getCnpj() {
@@ -37,28 +36,28 @@ public class PessoaJuridica {
         this.cnpj = cnpj;
     }
 
-    public int getId_pessoa() {
-        return id_pessoa;
+    public int getIdPessoa() {
+        return idPessoa;
     }
 
-    public void setId_pessoa(int id_pessoa) {
-        this.id_pessoa = id_pessoa;
+    public void setIdPessoa(int idPessoa) {
+        this.idPessoa = idPessoa;
     }
 
-    public String getNome_fantasia() {
-        return nome_fantasia;
+    public String getNomeFantasia() {
+        return nomeFantasia;
     }
 
-    public void setNome_fantasia(String nome_fantasia) {
-        this.nome_fantasia = nome_fantasia;
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
     }
 
-    public int getInscricao_estadual() {
-        return inscricao_estadual;
+    public int getInscricaoEstadual() {
+        return inscricaoEstadual;
     }
 
-    public void setInscricao_estadual(int inscricao_estadual) {
-        this.inscricao_estadual = inscricao_estadual;
+    public void setInscricaoEstadual(int inscricaoEstadual) {
+        this.inscricaoEstadual = inscricaoEstadual;
     }
 
     public Pessoa getPessoa() {

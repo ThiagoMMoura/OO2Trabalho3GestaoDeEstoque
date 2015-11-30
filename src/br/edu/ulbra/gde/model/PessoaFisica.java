@@ -1,4 +1,3 @@
-
 package br.edu.ulbra.gde.model;
 
 import java.util.Date;
@@ -7,30 +6,30 @@ import java.util.Date;
  *
  * @author Thiago Moura
  */
-public class PessoaFisica{
-    
+public class PessoaFisica {
+
     private int cpf;
     private int rg;
-    private int id_pessoa;
-    private Date data_nascimento;
+    private int idPessoa;
+    private Date dataNascimento;
     private char sexo;
     private Pessoa pessoa;
 
-    public PessoaFisica(int cpf, int rg, int id_pessoa, Date data_nascimento, char sexo, Pessoa pessoa) {
+    public PessoaFisica(int cpf, int rg, int idPessoa, Date dataNascimento, char sexo, Pessoa pessoa) {
         this.cpf = cpf;
         this.rg = rg;
-        this.id_pessoa = id_pessoa;
-        this.data_nascimento = data_nascimento;
+        this.idPessoa = idPessoa;
+        this.dataNascimento = dataNascimento;
         this.sexo = sexo;
         this.pessoa = pessoa;
     }
 
-    public PessoaFisica(int cpf, int rg, int id_pessoa, Date data_nascimento, char sexo) {
-        this(cpf,rg,id_pessoa,data_nascimento,sexo,null);
+    public PessoaFisica(int cpf, int rg, int idPessoa, Date dataNascimento, char sexo) {
+        this(cpf, rg, idPessoa, dataNascimento, sexo, null);
     }
 
     public PessoaFisica() {
-        this(0,0,0,null,'f');
+        this(0, 0, 0, null, 'f');
     }
 
     public int getCpf() {
@@ -49,20 +48,20 @@ public class PessoaFisica{
         this.rg = rg;
     }
 
-    public int getId_pessoa() {
-        return id_pessoa;
+    public int getIdPessoa() {
+        return idPessoa;
     }
 
-    public void setId_pessoa(int id_pessoa) {
-        this.id_pessoa = id_pessoa;
+    public void setIdPessoa(int idPessoa) {
+        this.idPessoa = idPessoa;
     }
 
-    public Date getData_nascimento() {
-        return data_nascimento;
+    public Date getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setData_nascimento(Date data_nascimento) {
-        this.data_nascimento = data_nascimento;
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public char getSexo() {

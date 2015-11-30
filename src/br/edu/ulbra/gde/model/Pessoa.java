@@ -1,4 +1,3 @@
-
 package br.edu.ulbra.gde.model;
 
 /**
@@ -6,6 +5,7 @@ package br.edu.ulbra.gde.model;
  * @author Thiago Moura
  */
 public class Pessoa {
+
     private int id;
     private String razaoSocial;
     private int idEndereco;
@@ -22,7 +22,7 @@ public class Pessoa {
     }
 
     public Pessoa() {
-        this(0,null,0,0,null);
+        this(0, null, 0, 0, null);
     }
 
     public int getId() {

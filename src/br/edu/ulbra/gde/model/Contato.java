@@ -1,4 +1,3 @@
-
 package br.edu.ulbra.gde.model;
 
 /**
@@ -8,19 +7,19 @@ package br.edu.ulbra.gde.model;
 public class Contato {
 
     private int id;
-    private int id_pessoa;
+    private int idPessoa;
     private String descricao;
     private String contato;
 
-    public Contato(int id, int id_pessoa, String descricao, String contato) {
+    public Contato(int id, int idPessoa, String descricao, String contato) {
         this.id = id;
-        this.id_pessoa = id_pessoa;
+        this.idPessoa = idPessoa;
         this.descricao = descricao;
         this.contato = contato;
     }
 
     public Contato() {
-        this(0,0,null,null);
+        this(0, 0, null, null);
     }
 
     public int getId() {
@@ -31,12 +30,12 @@ public class Contato {
         this.id = id;
     }
 
-    public int getId_pessoa() {
-        return id_pessoa;
+    public int getIdPessoa() {
+        return idPessoa;
     }
 
-    public void setId_pessoa(int id_pessoa) {
-        this.id_pessoa = id_pessoa;
+    public void setIdPessoa(int idPessoa) {
+        this.idPessoa = idPessoa;
     }
 
     public String getDescricao() {

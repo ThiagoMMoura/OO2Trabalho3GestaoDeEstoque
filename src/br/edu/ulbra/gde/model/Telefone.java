@@ -1,4 +1,3 @@
-
 package br.edu.ulbra.gde.model;
 
 /**
@@ -8,15 +7,15 @@ package br.edu.ulbra.gde.model;
 public class Telefone {
 
     private int id;
-    private int id_pessoa;
+    private int idPessoa;
     private int ddd;
     private String telefone;
     private String descricao;
     private boolean principal;
 
-    public Telefone(int id, int id_pessoa, int ddd, String telefone, String descricao, boolean principal) {
+    public Telefone(int id, int idPessoa, int ddd, String telefone, String descricao, boolean principal) {
         this.id = id;
-        this.id_pessoa = id_pessoa;
+        this.idPessoa = idPessoa;
         this.ddd = ddd;
         this.telefone = telefone;
         this.descricao = descricao;
@@ -24,7 +23,7 @@ public class Telefone {
     }
 
     public Telefone() {
-        this(0,0,0,null,null,false);
+        this(0, 0, 0, null, null, false);
     }
 
     public int getId() {
@@ -35,12 +34,12 @@ public class Telefone {
         this.id = id;
     }
 
-    public int getId_pessoa() {
-        return id_pessoa;
+    public int getIdPessoa() {
+        return idPessoa;
     }
 
-    public void setId_pessoa(int id_pessoa) {
-        this.id_pessoa = id_pessoa;
+    public void setIdPessoa(int id_pessoa) {
+        this.idPessoa = id_pessoa;
     }
 
     public int getDdd() {
