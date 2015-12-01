@@ -27,11 +27,6 @@ public class PessoaDAO {
 
     private PessoaDAO() throws SQLException {
         this.conexao = DBAdapter.getConnection();
-        try {
-            this.create();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        };
     }
 
     public static PessoaDAO getInstance() throws SQLException {
