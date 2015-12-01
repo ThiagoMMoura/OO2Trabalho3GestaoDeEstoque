@@ -6,13 +6,16 @@ package br.edu.ulbra.gde.model;
  */
 public class PessoaJuridica {
 
-    private int cnpj;
+    private int id;
+    private String cnpj;
     private int idPessoa;
     private String nomeFantasia;
     private int inscricaoEstadual;
     private Pessoa pessoa;
 
-    public PessoaJuridica(int cnpj, int idPessoa, String nomeFantasia, int inscricaoEstadual, Pessoa pessoa) {
+    public PessoaJuridica(int id, String cnpj, int idPessoa, String nomeFantasia,
+            int inscricaoEstadual, Pessoa pessoa) {
+        this.id = id;
         this.cnpj = cnpj;
         this.idPessoa = idPessoa;
         this.nomeFantasia = nomeFantasia;
@@ -20,19 +23,28 @@ public class PessoaJuridica {
         this.pessoa = pessoa;
     }
 
-    public PessoaJuridica(int cnpj, int idPessoa, String nomeFantasia, int inscricaoEstadual) {
-        this(cnpj, idPessoa, nomeFantasia, inscricaoEstadual, null);
+    public PessoaJuridica(int id, String cnpj, int idPessoa,
+            String nomeFantasia, int inscricaoEstadual) {
+        this(id, cnpj, idPessoa, nomeFantasia, inscricaoEstadual, null);
     }
 
     public PessoaJuridica() {
-        this(0, 0, null, 0);
+        this(0, null, 0, null, 0);
     }
 
-    public int getCnpj() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(int cnpj) {
+    public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 
