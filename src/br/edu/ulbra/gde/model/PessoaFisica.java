@@ -8,14 +8,17 @@ import java.util.Date;
  */
 public class PessoaFisica {
 
-    private int cpf;
-    private int rg;
+    private int id;
+    private String cpf;
+    private String rg;
     private int idPessoa;
     private Date dataNascimento;
     private char sexo;
     private Pessoa pessoa;
 
-    public PessoaFisica(int cpf, int rg, int idPessoa, Date dataNascimento, char sexo, Pessoa pessoa) {
+    public PessoaFisica(int id, String cpf, String rg, int idPessoa,
+            Date dataNascimento, char sexo, Pessoa pessoa) {
+        this.id = id;
         this.cpf = cpf;
         this.rg = rg;
         this.idPessoa = idPessoa;
@@ -24,27 +27,36 @@ public class PessoaFisica {
         this.pessoa = pessoa;
     }
 
-    public PessoaFisica(int cpf, int rg, int idPessoa, Date dataNascimento, char sexo) {
-        this(cpf, rg, idPessoa, dataNascimento, sexo, null);
+    public PessoaFisica(int id, String cpf, String rg, int idPessoa,
+            Date dataNascimento, char sexo) {
+        this(id, cpf, rg, idPessoa, dataNascimento, sexo, null);
     }
 
     public PessoaFisica() {
-        this(0, 0, 0, null, 'f');
+        this(0, "", "", 0, null, 'f');
     }
 
-    public int getCpf() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public int getRg() {
+    public String getRg() {
         return rg;
     }
 
-    public void setRg(int rg) {
+    public void setRg(String rg) {
         this.rg = rg;
     }
 
