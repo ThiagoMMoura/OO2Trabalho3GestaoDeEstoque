@@ -14,13 +14,6 @@ public class PessoaDAO {
     private static final String COLUNAS
             = "razao_social, id_endereco, numero_endereco, complemento_endereco";
     private static final String WHERE_ID = "where id = ?";
-    private static final String CREATE
-            = "CREATE TABLE " + TABELA + " ("
-            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "razao_social TEXT,"
-            + "id_endereco INTEGER,"
-            + "numero_endereco INTEGER,"
-            + "complemento_endereco TEXT )";
 
     private Connection conexao;
     private static PessoaDAO objeto;
@@ -34,11 +27,6 @@ public class PessoaDAO {
             PessoaDAO.objeto = new PessoaDAO();
         }
         return PessoaDAO.objeto;
-    }
-
-    public void create() throws SQLException {
-        PreparedStatement stmt = this.conexao.prepareStatement(CREATE);
-        boolean execute = stmt.execute();
     }
 
     private Pessoa getPessaByResultSet(ResultSet resultSet) throws SQLException {
@@ -130,7 +118,7 @@ public class PessoaDAO {
             stmt.setString(4, pessoa.getComplementoEndereco());
             stmt.setInt(5, pessoa.getId());
             stmt.executeUpdate();
-        }        
+        }
 
         stmt.close();
     }
