@@ -6,7 +6,6 @@ package br.edu.ulbra.gde.model;
  * @author Thiago Moura
  */
 public class ItemNF {
-    
     private int id;
     private int idNF;
     private int idProduto;
@@ -36,4 +35,61 @@ public class ItemNF {
     public ItemNF(){
         this(0,0,0,0,0f);
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getIdNF() {
+        return idNF;
+    }
+
+    public void setIdNF(int idNF) {
+        this.idNF = idNF;
+    }
+
+    public int getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(int idProduto) {
+        this.idProduto = idProduto;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public float getCusto() {
+        return custo;
+    }
+
+    public void setCusto(float custo) {
+        this.custo = custo;
+    }
+
+    public NotaFiscal getNf() {
+        return nf;
+    }
+
+    public void setNf(NotaFiscal nf) {
+        this.nf = nf;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
 }
