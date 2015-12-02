@@ -55,4 +55,12 @@ public class Pessoa extends DbModel {
         this.complementoEndereco = complementoEndereco;
     }
 
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
 }
