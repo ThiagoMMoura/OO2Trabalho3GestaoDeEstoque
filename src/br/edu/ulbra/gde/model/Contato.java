@@ -4,15 +4,14 @@ package br.edu.ulbra.gde.model;
  *
  * @author Thiago Moura
  */
-public class Contato {
+public class Contato extends DbModel {
 
-    private int id;
     private int idPessoa;
     private String descricao;
     private String contato;
 
     public Contato(int id, int idPessoa, String descricao, String contato) {
-        this.id = id;
+        super(id);
         this.idPessoa = idPessoa;
         this.descricao = descricao;
         this.contato = contato;
@@ -20,14 +19,6 @@ public class Contato {
 
     public Contato() {
         this(0, 0, null, null);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getIdPessoa() {

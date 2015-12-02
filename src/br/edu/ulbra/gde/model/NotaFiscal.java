@@ -6,9 +6,8 @@ import java.util.Date;
  *
  * @author Thiago Moura
  */
-public class NotaFiscal {
+public class NotaFiscal extends DbModel {
 
-    private int id;
     private int numero;
     private String serie;
     private String chaveAcesso;
@@ -19,10 +18,10 @@ public class NotaFiscal {
     private int idPessoa;
     private String informacoesComplementares;
 
-    public NotaFiscal(int id, int numero, String serie, String chaveAcesso, 
-            int entradaSaida, String naturezaOperacao, Date dataEmissao, 
+    public NotaFiscal(int id, int numero, String serie, String chaveAcesso,
+            int entradaSaida, String naturezaOperacao, Date dataEmissao,
             Date dataEntradaSaida, int idPessoa, String informacoesComplementares) {
-        this.id = id;
+        super(id);
         this.numero = numero;
         this.serie = serie;
         this.chaveAcesso = chaveAcesso;
@@ -32,14 +31,6 @@ public class NotaFiscal {
         this.dataEntradaSaida = dataEntradaSaida;
         this.idPessoa = idPessoa;
         this.informacoesComplementares = informacoesComplementares;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getNumero() {
@@ -114,6 +105,4 @@ public class NotaFiscal {
         this.informacoesComplementares = informacoesComplementares;
     }
 
-    
-    
 }

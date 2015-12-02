@@ -6,9 +6,8 @@ import java.util.Date;
  *
  * @author Thiago Moura
  */
-public class PessoaFisica {
+public class PessoaFisica extends DbModel {
 
-    private int id;
     private String cpf;
     private String rg;
     private int idPessoa;
@@ -18,7 +17,7 @@ public class PessoaFisica {
 
     public PessoaFisica(int id, String cpf, String rg, int idPessoa,
             Date dataNascimento, char sexo, Pessoa pessoa) {
-        this.id = id;
+        super(id);
         this.cpf = cpf;
         this.rg = rg;
         this.idPessoa = idPessoa;
@@ -34,14 +33,6 @@ public class PessoaFisica {
 
     public PessoaFisica() {
         this(0, "", "", 0, null, 'f');
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCpf() {

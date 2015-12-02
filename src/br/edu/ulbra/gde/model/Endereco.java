@@ -5,9 +5,8 @@ package br.edu.ulbra.gde.model;
  *
  * @author Thiago Moura
  */
-public class Endereco {
+public class Endereco extends DbModel{
     
-    private int id;
     private int cep;
     private String logradouro;
     private String bairro;
@@ -15,7 +14,7 @@ public class Endereco {
     private String uf;
 
     public Endereco(int id, int cep, String logradouro, String bairro, String cidade, String uf) {
-        this.id = id;
+       super(id);
         this.cep = cep;
         this.logradouro = logradouro;
         this.bairro = bairro;
@@ -25,14 +24,6 @@ public class Endereco {
 
     public Endereco() {
         this(0,0,null,null,null,null);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getCep() {

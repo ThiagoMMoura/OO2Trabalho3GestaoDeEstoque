@@ -4,9 +4,8 @@ package br.edu.ulbra.gde.model;
  *
  * @author Thiago Moura
  */
-public class Telefone {
+public class Telefone extends DbModel{
 
-    private int id;
     private int idPessoa;
     private int ddd;
     private String telefone;
@@ -14,7 +13,7 @@ public class Telefone {
     private boolean principal;
 
     public Telefone(int id, int idPessoa, int ddd, String telefone, String descricao, boolean principal) {
-        this.id = id;
+        super(id);
         this.idPessoa = idPessoa;
         this.ddd = ddd;
         this.telefone = telefone;
@@ -24,14 +23,6 @@ public class Telefone {
 
     public Telefone() {
         this(0, 0, 0, null, null, false);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getIdPessoa() {

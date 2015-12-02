@@ -4,9 +4,8 @@ package br.edu.ulbra.gde.model;
  *
  * @author Thiago Moura
  */
-public class Pessoa {
+public class Pessoa extends DbModel {
 
-    private int id;
     private String razaoSocial;
     private int idEndereco;
     private int numeroEndereco;
@@ -14,7 +13,7 @@ public class Pessoa {
     private Endereco endereco;
 
     public Pessoa(int id, String razaoSocial, int idEndereco, int numeroEndereco, String complementoEndereco) {
-        this.id = id;
+        super(id);
         this.razaoSocial = razaoSocial;
         this.idEndereco = idEndereco;
         this.numeroEndereco = numeroEndereco;
@@ -24,15 +23,6 @@ public class Pessoa {
     public Pessoa() {
         this(0, null, 0, 0, null);
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getRazaoSocial() {
         return razaoSocial;
     }

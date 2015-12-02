@@ -4,9 +4,8 @@ package br.edu.ulbra.gde.model;
  *
  * @author Thiago Moura
  */
-public class PessoaJuridica {
+public class PessoaJuridica extends DbModel {
 
-    private int id;
     private String cnpj;
     private int idPessoa;
     private String nomeFantasia;
@@ -15,7 +14,7 @@ public class PessoaJuridica {
 
     public PessoaJuridica(int id, String cnpj, int idPessoa, String nomeFantasia,
             int inscricaoEstadual, Pessoa pessoa) {
-        this.id = id;
+        super(id);
         this.cnpj = cnpj;
         this.idPessoa = idPessoa;
         this.nomeFantasia = nomeFantasia;
@@ -30,14 +29,6 @@ public class PessoaJuridica {
 
     public PessoaJuridica() {
         this(0, null, 0, null, 0);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCnpj() {

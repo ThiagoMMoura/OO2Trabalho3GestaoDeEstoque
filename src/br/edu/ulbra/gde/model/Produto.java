@@ -1,13 +1,11 @@
-
 package br.edu.ulbra.gde.model;
 
 /**
  *
  * @author Thiago Moura, Douglas Angeli
  */
-public class Produto {
+public class Produto extends DbModel {
 
-    private int id;
     private String ref;
     private String refFornecedor;
     private String descricao;
@@ -18,7 +16,7 @@ public class Produto {
     private boolean ativo;
 
     public Produto(int id, String ref, String refFornecedor, String descricao, float preco, float lucro, int quantidade, String unidade, boolean ativo) {
-        this.id = id;
+        super(id);
         this.ref = ref;
         this.refFornecedor = refFornecedor;
         this.descricao = descricao;
@@ -27,14 +25,6 @@ public class Produto {
         this.quantidade = quantidade;
         this.unidade = unidade;
         this.ativo = ativo;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getRef() {
@@ -100,6 +90,5 @@ public class Produto {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
-    
-    
+
 }
