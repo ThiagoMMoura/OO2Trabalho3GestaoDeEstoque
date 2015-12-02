@@ -1,6 +1,6 @@
 package br.edu.ulbra.gde.control;
 
-import java.io.File;
+import java.io.*;
 import java.sql.*;
 
 public class DBAdapter {
@@ -28,7 +28,7 @@ public class DBAdapter {
         }
 
         if (!exists) {
-            DBAdapter.criarTabelas();
+            DBCreator.criarTabelas(DBAdapter.conexao);
         }
 
         return DBAdapter.conexao;
@@ -36,19 +36,5 @@ public class DBAdapter {
 
     public static void close() throws SQLException {
         DBAdapter.conexao.close();
-    }
-
-    private static void criarTabelas() {
-        System.out.println(DBAdapter.class.getSimpleName()
-                + " - Criando tabelas do Banco de Dados...");
-        try {
-            System.out.println("pessoa");
-            PessoaDAO.getInstance().create();
-
-            System.out.println("pessoa_fisica");
-            PessoaFisicaDAO.getInstance().create();
-        } catch (SQLException ex) {
-            System.err.println("Erro na criação de tabelas: " + ex.getMessage());
-        }
     }
 }

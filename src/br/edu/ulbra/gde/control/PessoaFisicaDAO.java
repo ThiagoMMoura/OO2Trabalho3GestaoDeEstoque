@@ -14,15 +14,7 @@ public class PessoaFisicaDAO {
     private static final String COLUNAS
             = "cpf, rg, id_pessoa, data_nascimento, sexo";
     private static final String WHERE_ID = "where id = ?";
-    private static final String CREATE
-            = "CREATE TABLE " + TABELA + " ( "
-            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "cpf TEXT(11),"
-            + "rg INTEGER(10),"
-            + "id_pessoa INTEGER(11),"
-            + "data_nascimento TEXT(10),"
-            + "sexo TEXT(1) )";
-
+    
     private Connection conexao;
     private static PessoaFisicaDAO objeto;
 
@@ -35,11 +27,6 @@ public class PessoaFisicaDAO {
             PessoaFisicaDAO.objeto = new PessoaFisicaDAO();
         }
         return PessoaFisicaDAO.objeto;
-    }
-
-    public void create() throws SQLException {
-        PreparedStatement stmt = this.conexao.prepareStatement(CREATE);
-        boolean execute = stmt.execute();
     }
 
     private PessoaFisica getPessoaFisicaByResultSet(ResultSet resultSet) throws SQLException {
