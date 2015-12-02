@@ -8,7 +8,7 @@ import java.sql.*;
  *
  * @author Douglas, Thiago
  */
-public class ContatoDAO extends GenericDAO implements IDAO{
+public class ContatoDAO extends GenericDAO {
 
     protected static ContatoDAO objeto;
 

@@ -8,7 +8,7 @@ import java.sql.*;
  *
  * @author Douglas, Thiago
  */
-public class NotaFiscalDAO extends GenericDAO implements IDAO {
+public class NotaFiscalDAO extends GenericDAO  {
 
     protected static NotaFiscalDAO objeto;
 

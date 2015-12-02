@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author Douglas
  */
-public class GenericDAO {
+public abstract class GenericDAO {
 
     public static final String WHERE_ID = " where id = ?";
 
@@ -80,10 +80,6 @@ public class GenericDAO {
         }
     }
 
-    public DbModel getObjectByResultSet(ResultSet resultSet) throws SQLException {
-        return null;
-    }
-
     public ArrayList<DbModel> getAll() throws SQLException {
 
         PreparedStatement stmt = conexao.prepareStatement(this.getSelect(null));
@@ -126,10 +122,6 @@ public class GenericDAO {
         stmt.close();
     }
 
-    public void setStatementParameters(PreparedStatement stmt, DbModel dm, boolean id)
-            throws SQLException {
-    }
-
     public void delete(DbModel dm) throws SQLException {
 
         DbModel c = this.getObjectById(dm.getId());
@@ -142,4 +134,9 @@ public class GenericDAO {
             stmt.close();
         }
     }
+    
+    public abstract DbModel getObjectByResultSet(ResultSet resultSet) throws SQLException;
+    
+    public abstract void setStatementParameters(PreparedStatement stmt, DbModel dm, boolean id)
+            throws SQLException;
 }

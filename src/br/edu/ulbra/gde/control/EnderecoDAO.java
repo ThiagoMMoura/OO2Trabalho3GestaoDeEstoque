@@ -8,7 +8,7 @@ import java.sql.*;
  *
  * @author Douglas, Thiago
  */
-public class EnderecoDAO extends GenericDAO implements IDAO {
+public class EnderecoDAO extends GenericDAO {
 
     protected static EnderecoDAO objeto;
 
@@ -26,7 +26,7 @@ public class EnderecoDAO extends GenericDAO implements IDAO {
     }
 
     @Override
-    public DbModel getObjectByResultSet(ResultSet resultSet) throws SQLException {
+    public Endereco getObjectByResultSet(ResultSet resultSet) throws SQLException {
         int idRet = resultSet.getInt("id");
         int cep = resultSet.getInt(this.colunas[0]);
         String logradouro = resultSet.getString(this.colunas[1]);

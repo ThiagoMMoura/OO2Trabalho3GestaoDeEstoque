@@ -8,7 +8,7 @@ import java.sql.*;
  *
  * @author Douglas, Thiago
  */
-public class PessoaJuridicaDAO extends GenericDAO implements IDAO{
+public class PessoaJuridicaDAO extends GenericDAO {
 
     private static PessoaJuridicaDAO objeto;
 
