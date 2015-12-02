@@ -121,6 +121,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 formInternalFrameOpened(evt);
             }
         });
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         guiasPessoaFisica.setToolTipText("");
         guiasPessoaFisica.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -131,7 +132,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
         guiaCadastroPessoaFisica.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Identificação", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Identificação", 1, 0));
 
         cmpID.setEditable(false);
 
@@ -208,7 +209,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Endereço", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Endereço", 1, 0));
 
         jLabel7.setText("CEP:");
 
@@ -481,17 +482,17 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
         tblBusca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null}
+                {null, null}
             },
             new String [] {
-                "CPF", "Nome", "Data Nascimento"
+                "CNPJ", "Nome Fantasia"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -707,7 +708,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 frame = null;
                 return PessoaFisicaFrame.AbrirNovo(desktop);
             }else{
-                int op = JOptionPane.showConfirmDialog(desktop, "Já existem uma janela aberta, você deseja fechar essa janela/nperder todo o conteúdo não salvo e abrir uma nova janela?", "Janela aberta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int op = JOptionPane.showConfirmDialog(desktop, "Já existe uma janela aberta, você deseja fechar essa janela/nperder todo o conteúdo não salvo e abrir uma nova janela?", "Janela aberta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if(op==JOptionPane.YES_OPTION){
                     frame.dispose();
                     return PessoaFisicaFrame.AbrirNovo(desktop);
