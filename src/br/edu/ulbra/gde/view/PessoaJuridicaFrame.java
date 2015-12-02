@@ -5,17 +5,26 @@
  */
 package br.edu.ulbra.gde.view;
 
+import br.edu.ulbra.gde.model.Estado;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Thiago Moura
  */
 public class PessoaJuridicaFrame extends javax.swing.JInternalFrame {
-
+    private static PessoaJuridicaFrame frame = null;
     /**
      * Creates new form PessoaJuridicaFrame
      */
-    public PessoaJuridicaFrame() {
+    private PessoaJuridicaFrame() {
         initComponents();
+        //CarregarEstados();
+        this.isClosed = true;
     }
 
     /**
@@ -32,6 +41,24 @@ public class PessoaJuridicaFrame extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Pessoa Juridica");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -47,7 +74,68 @@ public class PessoaJuridicaFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        this.isClosed = false;
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        this.isClosed = true;
+    }//GEN-LAST:event_formInternalFrameClosed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    
+//    private void CarregarEstados(){
+//        cmpUF.removeAllItems();
+//        for(String estado: Estado.getEstados()){
+//            String[] parte = estado.split(" - ");
+//            cmpUF.addItem(new Estado(parte[0],parte[1]));
+//        }
+//    }
+    
+    public static PessoaJuridicaFrame getInstance(){
+        if(frame==null){
+            frame = new PessoaJuridicaFrame();
+        }
+        return frame;
+    }
+    
+    public static PessoaJuridicaFrame AbrirNovo(JDesktopPane desktop){
+        if(frame==null){
+            frame = new PessoaJuridicaFrame();
+            desktop.add(frame);
+            frame.setVisible(true);
+            return frame;
+        }else{
+            if(frame.isClosed()){
+                frame = null;
+                return PessoaJuridicaFrame.AbrirNovo(desktop);
+            }else{
+                int op = JOptionPane.showConfirmDialog(desktop, "Já existem uma janela aberta, você deseja fechar essa janela/nperder todo o conteúdo não salvo e abrir uma nova janela?", "Janela aberta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(op==JOptionPane.YES_OPTION){
+                    frame.dispose();
+                    return PessoaJuridicaFrame.AbrirNovo(desktop);
+                }
+                return frame;
+            }
+        }
+    }
+    
+    public void maximizar(){
+        try {
+            this.setIcon(false);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        selecionar();
+    }
+    
+    public void selecionar(){
+        try {
+            this.setSelected(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -5,19 +5,29 @@
  */
 package br.edu.ulbra.gde.view;
 
+import br.edu.ulbra.gde.model.Estado;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Thiago Moura
  */
 public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
-    private String[] estados;
+    private static PessoaFisicaFrame frame = null;
+    
     /**
      * Creates new form ClienteFrame
      */
-    public PessoaFisicaFrame() {
+    private PessoaFisicaFrame() {
         initComponents();
+        CarregarEstados();
+        this.isClosed = true;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,6 +103,24 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Pessoa Fisica");
         setToolTipText("");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         guiasPessoaFisica.setToolTipText("");
         guiasPessoaFisica.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -583,6 +611,14 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         guiasPessoaFisica.setSelectedIndex(0);
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        this.isClosed = false;
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        this.isClosed = true;
+    }//GEN-LAST:event_formInternalFrameClosed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
@@ -645,4 +681,56 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblContatos;
     private javax.swing.JTable tblTelefones;
     // End of variables declaration//GEN-END:variables
+    private void CarregarEstados(){
+        cmpUF.removeAllItems();
+        for(String estado: Estado.getEstados()){
+            String[] parte = estado.split(" - ");
+            cmpUF.addItem(new Estado(parte[0],parte[1]));
+        }
+    }
+    
+    public static PessoaFisicaFrame getInstance(){
+        if(frame==null){
+            frame = new PessoaFisicaFrame();
+        }
+        return frame;
+    }
+    
+    public static PessoaFisicaFrame AbrirNovo(JDesktopPane desktop){
+        if(frame==null){
+            frame = new PessoaFisicaFrame();
+            desktop.add(frame);
+            frame.setVisible(true);
+            return frame;
+        }else{
+            if(frame.isClosed()){
+                frame = null;
+                return PessoaFisicaFrame.AbrirNovo(desktop);
+            }else{
+                int op = JOptionPane.showConfirmDialog(desktop, "Já existem uma janela aberta, você deseja fechar essa janela/nperder todo o conteúdo não salvo e abrir uma nova janela?", "Janela aberta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(op==JOptionPane.YES_OPTION){
+                    frame.dispose();
+                    return PessoaFisicaFrame.AbrirNovo(desktop);
+                }
+                return frame;
+            }
+        }
+    }
+    
+    public void maximizar(){
+        try {
+            this.setIcon(false);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        selecionar();
+    }
+    
+    public void selecionar(){
+        try {
+            this.setSelected(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
