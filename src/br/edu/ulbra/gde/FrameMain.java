@@ -6,21 +6,20 @@
 package br.edu.ulbra.gde;
 
 import br.edu.ulbra.gde.view.*;
-import java.beans.PropertyVetoException;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Thiago Moura
  */
 public class FrameMain extends javax.swing.JFrame {
-    private PessoaFisicaFrame pFisica;
-    private PessoaJuridicaFrame pJuridica;
+    private PessoaFisicaFrame pFisica = PessoaFisicaFrame.getInstance();
+    private PessoaJuridicaFrame pJuridica = PessoaJuridicaFrame.getInstance();
     /**
      * Creates new form FrameMain
      */
     public FrameMain() {
         initComponents();
+        desktopMain.add(pFisica);
     }
 
     /**
@@ -95,42 +94,26 @@ public class FrameMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mitPessoaFisicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPessoaFisicaActionPerformed
-        if(pFisica!=null){
-            try {
-                pFisica.setIcon(false);
-                pFisica.setSelected(true);
-            } catch (PropertyVetoException ex) {
-                int res = JOptionPane.showConfirmDialog(this, "Está janela já está aberta, mas um erro impede ela de ser reaberta.\nVocê deseja abrir uma nova janela?", "Erro ao abrir janela", JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE);
-                if(res==JOptionPane.YES_OPTION){
-                    pFisica = new PessoaFisicaFrame();
-                    desktopMain.add(pFisica);
-                    pFisica.setVisible(true);
-                }
-            }
+        if(pFisica.isClosed()){
+            pFisica = PessoaFisicaFrame.AbrirNovo(desktopMain);
         }else{
-            pFisica = new PessoaFisicaFrame();
-            desktopMain.add(pFisica);
-            pFisica.setVisible(true);
+            if(pFisica.isIcon()){
+                pFisica.maximizar();
+            }else{
+                pFisica.selecionar();
+            }
         }
     }//GEN-LAST:event_mitPessoaFisicaActionPerformed
 
     private void mitPessoaJuridicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPessoaJuridicaActionPerformed
-        if(pJuridica!=null){
-            try {
-                pJuridica.setIcon(false);
-                pJuridica.setSelected(true);
-            } catch (PropertyVetoException ex) {
-                int res = JOptionPane.showConfirmDialog(this, "Está janela já está aberta, mas um erro impede ela de ser reaberta.\nVocê deseja abrir uma nova janela?", "Erro ao abrir janela", JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE);
-                if(res==JOptionPane.YES_OPTION){
-                    pJuridica = new PessoaJuridicaFrame();
-                    desktopMain.add(pJuridica);
-                    pJuridica.setVisible(true);
-                }
-            }
+        if(pJuridica.isClosed()){
+            pJuridica = PessoaJuridicaFrame.AbrirNovo(desktopMain);
         }else{
-            pJuridica = new PessoaJuridicaFrame();
-            desktopMain.add(pJuridica);
-            pJuridica.setVisible(true);
+            if(pJuridica.isIcon()){
+                pJuridica.maximizar();
+            }else{
+                pJuridica.selecionar();
+            }
         }
     }//GEN-LAST:event_mitPessoaJuridicaActionPerformed
 
@@ -178,4 +161,5 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem mitPessoaFisica;
     private javax.swing.JMenuItem mitPessoaJuridica;
     // End of variables declaration//GEN-END:variables
+    
 }
