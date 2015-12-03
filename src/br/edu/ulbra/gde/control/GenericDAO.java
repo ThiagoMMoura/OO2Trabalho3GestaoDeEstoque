@@ -2,7 +2,8 @@ package br.edu.ulbra.gde.control;
 
 import br.edu.ulbra.gde.model.DbModel;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
+import org.sqlite.util.StringUtils;
 
 /**
  *
@@ -17,7 +18,10 @@ public abstract class GenericDAO {
     protected String[] colunas;
 
     public String getStringColunas(String separator) {
-        return String.join(separator, this.colunas);
+        //String value = String.join(separator, this.colunas);
+        List<String> stringList = new ArrayList<>(Arrays.asList(this.colunas));
+        String joinedResult = StringUtils.join(stringList, separator);
+        return joinedResult;
     }
 
     public String getInterrogacoes(int n) {
@@ -25,7 +29,10 @@ public abstract class GenericDAO {
         for (int i = 0; i < array.length; i++) {
             array[i] = "?";
         }
-        return String.join(", ", array);
+        //String anterior = String.join(", ", array);
+        List<String> stringList = new ArrayList<>(Arrays.asList(array));
+        String joinedResult = StringUtils.join(stringList, ", ");
+        return joinedResult;
     }
 
     public String getSelect(String whereClause) {
@@ -134,9 +141,9 @@ public abstract class GenericDAO {
             stmt.close();
         }
     }
-    
+
     public abstract DbModel getObjectByResultSet(ResultSet resultSet) throws SQLException;
-    
+
     public abstract void setStatementParameters(PreparedStatement stmt, DbModel dm, boolean id)
             throws SQLException;
 }
