@@ -19,6 +19,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Thiago Moura
  */
 public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
+    public static final int ABA_CADASTRO = 0;
+    public static final int ABA_BUSCA = 1;
+    
     private static PessoaFisicaFrame frame = null;
     private int idPessoaFisica;
     private int idEndereco;
@@ -30,8 +33,9 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         initComponents();
         CarregarEstados();
         this.isClosed = true;
-        this.idEndereco = 0;
-        this.idPessoaFisica = 0;
+        limparCamposEndereco();
+        limparCamposPessoa();
+        limparCamposPessoaFisica();
     }
     
     /**
@@ -102,6 +106,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         btnIncluir = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
+        btnLimparCadastro = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -110,21 +115,21 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         setTitle("Pessoa Fisica");
         setToolTipText("");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosed(evt);
             }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameOpened(evt);
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
             }
         });
 
@@ -553,6 +558,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -561,12 +571,21 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        btnLimparCadastro.setText("Limpar");
+        btnLimparCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparCadastroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlBarraFerramentasLayout = new javax.swing.GroupLayout(pnlBarraFerramentas);
         pnlBarraFerramentas.setLayout(pnlBarraFerramentasLayout);
         pnlBarraFerramentasLayout.setHorizontalGroup(
             pnlBarraFerramentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBarraFerramentasLayout.createSequentialGroup()
-                .addContainerGap(395, Short.MAX_VALUE)
+                .addContainerGap(326, Short.MAX_VALUE)
+                .addComponent(btnLimparCadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExcluir)
@@ -587,7 +606,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                     .addComponent(btnSairBusca)
                     .addComponent(btnIncluir)
                     .addComponent(btnExcluir)
-                    .addComponent(btnSalvar))
+                    .addComponent(btnSalvar)
+                    .addComponent(btnLimparCadastro))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -597,18 +617,22 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guiasPessoaFisicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_guiasPessoaFisicaStateChanged
-        if(guiasPessoaFisica.getSelectedIndex()==0){
+        if(guiasPessoaFisica.getSelectedIndex()==ABA_CADASTRO){
             btnIncluir.setVisible(false);
             btnSalvar.setVisible(true);
             btnExcluir.setVisible(true);
+            btnExcluir.setEnabled(!cmpID.getText().equals("0"));
             btnSairBusca.setVisible(true);
             btnEditar.setVisible(false);
+            btnLimparCadastro.setVisible(true);
         }else{
             btnIncluir.setVisible(true);
             btnSalvar.setVisible(false);
             btnExcluir.setVisible(true);
+            btnExcluir.setEnabled(true);
             btnSairBusca.setVisible(true);
             btnEditar.setVisible(true);
+            btnLimparCadastro.setVisible(false);
             ListarAllPessoasFisicas();
         }
     }//GEN-LAST:event_guiasPessoaFisicaStateChanged
@@ -618,11 +642,28 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSairBuscaActionPerformed
 
     private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
-        guiasPessoaFisica.setSelectedIndex(0);
+        guiasPessoaFisica.setSelectedIndex(ABA_CADASTRO);
+        limparCamposEndereco();
+        limparCamposPessoa();
+        limparCamposPessoaFisica();
+        btnExcluir.setEnabled(!cmpID.getText().equals("0"));
     }//GEN-LAST:event_btnIncluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        guiasPessoaFisica.setSelectedIndex(0);
+        int rowIndex = tblBusca.getSelectedRow();
+        if(rowIndex > -1){
+            String cpf = (String) tblBusca.getValueAt(rowIndex, 0);
+            PessoaFisicaDAO psf;
+            PessoaFisica pessoa;
+            try {
+                psf = PessoaFisicaDAO.getInstance();
+                pessoa = (PessoaFisica) psf.getAllWhere("cpf = '"+cpf+"'").get(0);
+                setCampos(pessoa);
+                guiasPessoaFisica.setSelectedIndex(ABA_CADASTRO);
+            } catch (SQLException ex) {
+                Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -659,11 +700,27 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void btnLimparCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCadastroActionPerformed
+        limparCamposEndereco();
+        limparCamposPessoa();
+        limparCamposPessoaFisica();
+        btnExcluir.setEnabled(!cmpID.getText().equals("0"));
+    }//GEN-LAST:event_btnLimparCadastroActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        if(guiasPessoaFisica.getSelectedIndex()==ABA_CADASTRO){
+            
+        }else{
+            
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnIncluir;
+    private javax.swing.JButton btnLimparCadastro;
     private javax.swing.JButton btnSairBusca;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JTextField cmpBairro;
@@ -723,9 +780,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
     private void CarregarEstados(){
         cmpUF.removeAllItems();
-        for(String estado: Estado.getEstados()){
-            String[] parte = estado.split(" - ");
-            cmpUF.addItem(new Estado(parte[0],parte[1]));
+        for(Estado estado: Estado.getListEstados()){
+            cmpUF.addItem(estado);
         }
     }
     
@@ -793,6 +849,50 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         cmpDataNascimento.setDate(pessoa.getDataNascimento());
         cmpSexo.selectWithKeyChar(pessoa.getSexo());
     }
+    
+    private void setCamposEndereco(Endereco endereco){
+        idEndereco = endereco.getId();
+        cmpCEP.setText(endereco.getCep()+"");
+        cmpLogradouro.setText(endereco.getLogradouro());
+        cmpBairro.setText(endereco.getBairro());
+        cmpCidade.setText(endereco.getCidade());
+        cmpUF.setSelectedIndex(Estado.getIndexBySigla(endereco.getUf()));
+    }
+    
+    private void setCamposPessoa(Pessoa pessoa){
+        cmpID.setText(pessoa.getId()+"");
+        cmpNome.setText(pessoa.getRazaoSocial());
+        cmpNumero.setText(pessoa.getNumeroEndereco()+"");
+        cmpComplemento.setText(pessoa.getComplementoEndereco());
+    }
+
+    private void setTabelaContato(ArrayList<DbModel> contatos){
+        DefaultTableModel modelo = (DefaultTableModel) tblContatos.getModel();
+        modelo.setNumRows(0);
+        for (DbModel d : contatos) {
+            Contato c = (Contato) d;
+            modelo.addRow(new Object[]{c.getDescricao(), c.getContato()});
+        }
+    }
+    
+    private void setTabelaTelefone(ArrayList<DbModel> telefones){
+        DefaultTableModel modelo = (DefaultTableModel) tblTelefones.getModel();
+        modelo.setNumRows(0);
+        for (DbModel d : telefones) {
+            Telefone t = (Telefone) d;
+            modelo.addRow(new Object[]{t.getDdd()+"", t.getTelefone(), t.getDescricao(), t.isPrincipal()});
+        }
+    }
+    
+    private void setTabelaBusca(ArrayList<DbModel> pessoasFisica){
+        DefaultTableModel modelo = (DefaultTableModel) tblBusca.getModel();
+        modelo.setNumRows(0);
+        for (DbModel d : pessoasFisica) {
+            PessoaFisica p = (PessoaFisica) d;
+            modelo.addRow(new Object[]{p.getCpf(), p.getPessoa().getRazaoSocial(), Data.format(p.getDataNascimento())});
+        }
+    }
+    
     private void ListarContatos(int id){
         ArrayList<DbModel> contatos = new ArrayList<>();
         ContatoDAO con;
@@ -829,38 +929,28 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         setTabelaBusca(pessoas);
     }
     
-    private void setCamposEndereco(Endereco endereco){
-        idEndereco = endereco.getId();
-        cmpCEP.setText(endereco.getCep()+"");
-        cmpLogradouro.setText(endereco.getLogradouro());
-        cmpBairro.setText(endereco.getBairro());
-        cmpCidade.setText(endereco.getCidade());
-        cmpUF.setSelectedItem(0);//Fazer
+    private void limparCamposEndereco(){
+        idEndereco = 0;
+        cmpCEP.setText("");
+        cmpLogradouro.setText("");
+        cmpBairro.setText("");
+        cmpCidade.setText("");
+        cmpUF.setSelectedIndex(0);
     }
     
-    private void setCamposPessoa(Pessoa pessoa){
-        cmpID.setText(pessoa.getId()+"");
-        cmpNome.setText(pessoa.getRazaoSocial());
-        cmpNumero.setText(pessoa.getNumeroEndereco()+"");
-        cmpComplemento.setText(pessoa.getComplementoEndereco());
+    private void limparCamposPessoa(){
+        cmpID.setText("0");
+        cmpNome.setText("");
+        cmpNumero.setText("");
+        cmpComplemento.setText("");
     }
     
-    private void setTabelaContato(ArrayList<DbModel> contatos){
-        DefaultTableModel modelo = (DefaultTableModel) tblContatos.getModel();
-        modelo.setNumRows(0);
-        for (DbModel d : contatos) {
-            Contato c = (Contato) d;
-            modelo.addRow(new Object[]{c.getDescricao(), c.getContato()});
-        }
-    }
-    
-    private void setTabelaTelefone(ArrayList<DbModel> telefones){
-        DefaultTableModel modelo = (DefaultTableModel) tblTelefones.getModel();
-        modelo.setNumRows(0);
-        for (DbModel d : telefones) {
-            Telefone t = (Telefone) d;
-            modelo.addRow(new Object[]{t.getDdd()+"", t.getTelefone(), t.getDescricao(), t.isPrincipal()});
-        }
+    private void limparCamposPessoaFisica(){
+        idPessoaFisica = 0;
+        cmpCPF.setText("");
+        cmpRG.setText("");
+        cmpDataNascimento.setDate(null);
+        cmpSexo.selectWithKeyChar('f');
     }
     
     private Pessoa getPessoaFromCampos(){
@@ -893,14 +983,5 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         pessoa.setDataNascimento(cmpDataNascimento.getDate());
         pessoa.setSexo(cmpSexo.getSelectedItem().toString().toLowerCase().charAt(0));
         return pessoa;
-    }
-    
-    private void setTabelaBusca(ArrayList<DbModel> pessoasFisica){
-        DefaultTableModel modelo = (DefaultTableModel) tblBusca.getModel();
-        modelo.setNumRows(0);
-        for (DbModel d : pessoasFisica) {
-            PessoaFisica p = (PessoaFisica) d;
-            modelo.addRow(new Object[]{p.getCpf(), p.getPessoa().getRazaoSocial(), Data.format(p.getDataNascimento())});
-        }
     }
 }
