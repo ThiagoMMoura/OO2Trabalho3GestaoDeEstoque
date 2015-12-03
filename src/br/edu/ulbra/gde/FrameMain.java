@@ -16,6 +16,7 @@ public class FrameMain extends javax.swing.JFrame {
     private PessoaFisicaFrame pFisica = PessoaFisicaFrame.getInstance();
     private PessoaJuridicaFrame pJuridica = PessoaJuridicaFrame.getInstance();
     private NotaFiscalFrame notaFiscalFrame = NotaFiscalFrame.getInstance();
+    private ProdutoFrame produtoFrame = ProdutoFrame.getInstance();
 
     /**
      * Creates new form FrameMain
@@ -44,6 +45,8 @@ public class FrameMain extends javax.swing.JFrame {
         mitPessoaJuridica = new javax.swing.JMenuItem();
         menuNotaFiscal = new javax.swing.JMenu();
         mitNotaFiscal = new javax.swing.JMenuItem();
+        menuProdutos = new javax.swing.JMenu();
+        mitProdutos = new javax.swing.JMenuItem();
 
         jMenu2.setText("jMenu2");
 
@@ -97,6 +100,18 @@ public class FrameMain extends javax.swing.JFrame {
 
         jMenuBar1.add(menuNotaFiscal);
 
+        menuProdutos.setText("Produtos");
+
+        mitProdutos.setText("Produtos");
+        mitProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitProdutosActionPerformed(evt);
+            }
+        });
+        menuProdutos.add(mitProdutos);
+
+        jMenuBar1.add(menuProdutos);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,6 +164,18 @@ public class FrameMain extends javax.swing.JFrame {
         }
      }//GEN-LAST:event_mitNotaFiscalActionPerformed
 
+    private void mitProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitProdutosActionPerformed
+        if (produtoFrame.isClosed()) {
+            produtoFrame = ProdutoFrame.AbrirNovo(desktopMain);
+        } else {
+            if (produtoFrame.isIcon()) {
+                produtoFrame.maximizar();
+            } else {
+                produtoFrame.selecionar();
+            }
+        }
+    }//GEN-LAST:event_mitProdutosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -192,9 +219,11 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu menuNotaFiscal;
     private javax.swing.JMenu menuPessoa;
+    private javax.swing.JMenu menuProdutos;
     private javax.swing.JMenuItem mitNotaFiscal;
     private javax.swing.JMenuItem mitPessoaFisica;
     private javax.swing.JMenuItem mitPessoaJuridica;
+    private javax.swing.JMenuItem mitProdutos;
     // End of variables declaration//GEN-END:variables
 
 }
