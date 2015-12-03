@@ -19,9 +19,10 @@ import javax.swing.table.DefaultTableModel;
  * @author Thiago Moura
  */
 public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
+
     public static final int ABA_CADASTRO = 0;
     public static final int ABA_BUSCA = 1;
-    
+
     private static PessoaFisicaFrame frame = null;
     private int idPessoaFisica;
     private int idEndereco;
@@ -29,7 +30,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private int idTelefone;
     private ArrayList<DbModel> contatos;
     private ArrayList<DbModel> telefones;
-    
+
     /**
      * Creates new form ClienteFrame
      */
@@ -43,7 +44,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         limparCamposContatos();
         limparCamposTelefones();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -494,6 +495,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         });
 
         btnTelefonesExcluir.setText("Excluir");
+        btnTelefonesExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTelefonesExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -714,7 +720,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guiasPessoaFisicaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_guiasPessoaFisicaStateChanged
-        if(guiasPessoaFisica.getSelectedIndex()==ABA_CADASTRO){
+        if (guiasPessoaFisica.getSelectedIndex() == ABA_CADASTRO) {
             btnIncluir.setVisible(false);
             btnSalvar.setVisible(true);
             btnExcluir.setVisible(true);
@@ -722,7 +728,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             btnSairBusca.setVisible(true);
             btnEditar.setVisible(false);
             btnLimparCadastro.setVisible(true);
-        }else{
+        } else {
             btnIncluir.setVisible(true);
             btnSalvar.setVisible(false);
             btnExcluir.setVisible(true);
@@ -750,13 +756,13 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         int rowIndex = tblBusca.getSelectedRow();
-        if(rowIndex > -1){
+        if (rowIndex > -1) {
             String cpf = (String) tblBusca.getValueAt(rowIndex, 0);
             PessoaFisicaDAO psf;
             PessoaFisica pessoa;
             try {
                 psf = PessoaFisicaDAO.getInstance();
-                pessoa = (PessoaFisica) psf.getAllWhere("cpf = '"+cpf+"'").get(0);
+                pessoa = (PessoaFisica) psf.getAllWhere("cpf = '" + cpf + "'").get(0);
                 setCampos(pessoa);
                 guiasPessoaFisica.setSelectedIndex(ABA_CADASTRO);
             } catch (SQLException ex) {
@@ -785,32 +791,32 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             psf = PessoaFisicaDAO.getInstance();
             con = ContatoDAO.getInstance();
             tel = TelefoneDAO.getInstance();
-            
+
             Endereco endereco = getEnderecoFromCampos();
-            System.out.println("ID endereco: "+idEndereco);
-            if(end.getAllWhere("cep = "+endereco.getCep()).isEmpty()){
+            System.out.println("ID endereco: " + idEndereco);
+            if (end.getAllWhere("cep = " + endereco.getCep()).isEmpty()) {
                 end.save(endereco);
                 setCamposEndereco(endereco);
             }
-            
+
             Pessoa pessoa = getPessoaFromCampos();
             pes.save(pessoa);
             setCamposPessoa(pessoa);
-            
-            for(DbModel d: contatos){
+
+            for (DbModel d : contatos) {
                 Contato contato = (Contato) d;
                 contato.setIdPessoa(Integer.parseInt(cmpID.getText()));
                 con.save(contato);
             }
             setTabelaContato(contatos);
-            
-            for(DbModel d: telefones){
+
+            for (DbModel d : telefones) {
                 Telefone telefone = (Telefone) d;
                 telefone.setIdPessoa(Integer.parseInt(cmpID.getText()));
                 tel.save(telefone);
             }
             setTabelaTelefone(telefones);
-            
+
             PessoaFisica fisica = getPessoaFisicaFromCampos();
             psf.save(fisica);
             setCampos(fisica);
@@ -818,7 +824,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnLimparCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCadastroActionPerformed
@@ -831,7 +837,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimparCadastroActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        if(guiasPessoaFisica.getSelectedIndex()==ABA_CADASTRO){
+        if (guiasPessoaFisica.getSelectedIndex() == ABA_CADASTRO) {
             PessoaDAO pes;
             PessoaFisicaDAO psf;
             ContatoDAO con;
@@ -842,18 +848,18 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 psf = PessoaFisicaDAO.getInstance();
                 con = ContatoDAO.getInstance();
                 tel = TelefoneDAO.getInstance();
-                
-                for(DbModel d: telefones){
+
+                for (DbModel d : telefones) {
                     tel.delete(d);
                 }
-                
-                for(DbModel d: contatos){
+
+                for (DbModel d : contatos) {
                     con.delete(d);
                 }
-                
+
                 psf.delete(getPessoaFisicaFromCampos());
                 pes.delete(getPessoaFromCampos());
-                
+
                 limparCamposEndereco();
                 limparCamposPessoa();
                 limparCamposPessoaFisica();
@@ -864,8 +870,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
-            
+        } else {
+
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -876,29 +882,29 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnContatosSalvarActionPerformed
 
     private void btnContatosLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContatosLimparActionPerformed
-        if(idContato>0){
+        if (idContato > 0) {
             contatos.add(getTelefoneFromCampos());
         }
         limparCamposContato();
     }//GEN-LAST:event_btnContatosLimparActionPerformed
 
     private void btnTelefonesLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelefonesLimparActionPerformed
-        if(idTelefone>0){
+        if (idTelefone > 0) {
             telefones.add(getContatoFromCampos());
         }
         limparCamposTelefone();
     }//GEN-LAST:event_btnTelefonesLimparActionPerformed
 
     private void tblTelefonesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTelefonesMouseClicked
-        if(evt.getClickCount()==2){
-            setCamposTelefone((Telefone)telefones.get(tblTelefones.getSelectedRow()));
+        if (evt.getClickCount() == 2) {
+            setCamposTelefone((Telefone) telefones.get(tblTelefones.getSelectedRow()));
             telefones.remove(tblTelefones.getSelectedRow());
         }
     }//GEN-LAST:event_tblTelefonesMouseClicked
 
     private void tblContatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblContatosMouseClicked
-        if(evt.getClickCount()==2){
-            setCamposContato((Contato)contatos.get(tblContatos.getSelectedRow()));
+        if (evt.getClickCount() == 2) {
+            setCamposContato((Contato) contatos.get(tblContatos.getSelectedRow()));
             contatos.remove(tblContatos.getSelectedRow());
         }
     }//GEN-LAST:event_tblContatosMouseClicked
@@ -910,12 +916,14 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnTelefonesSalvarActionPerformed
 
     private void btnProcurarCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCEPActionPerformed
-        if(!cmpCEP.getText().isEmpty()){
+        if (!cmpCEP.getText().isEmpty()) {
             EnderecoDAO end;
             try {
                 end = EnderecoDAO.getInstance();
-                ArrayList<DbModel> res = end.getAllWhere("cep ="+cmpCEP.getText());
-                if(res.size()>0)setCamposEndereco((Endereco) res.get(0));
+                ArrayList<DbModel> res = end.getAllWhere("cep =" + cmpCEP.getText());
+                if (res.size() > 0) {
+                    setCamposEndereco((Endereco) res.get(0));
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -944,6 +952,36 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_tblBuscaMouseClicked
+        if (idContato > 0) {
+            try {
+                ContatoDAO cd = ContatoDAO.getInstance();
+                Contato c = (Contato) cd.getObjectById(idContato);
+                cd.delete(c);
+                contatos.remove(c);
+                limparCamposContato();
+                setTabelaContato(contatos);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnContatosExcluirActionPerformed
+
+    private void btnTelefonesExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelefonesExcluirActionPerformed
+        if (idTelefone > 0) {
+            try {
+                TelefoneDAO td = TelefoneDAO.getInstance();
+                Telefone c = (Telefone) td.getObjectById(idTelefone);
+                td.delete(c);
+                telefones.remove(c);
+                limparCamposTelefone();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } else if (tblTelefones.getSelectedRow() > -1) {
+            telefones.remove(tblTelefones.getSelectedRow());
+        }
+        setTabelaTelefone(telefones);
+    }//GEN-LAST:event_btnTelefonesExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1015,33 +1053,33 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblContatos;
     private javax.swing.JTable tblTelefones;
     // End of variables declaration//GEN-END:variables
-    private void CarregarEstados(){
+    private void CarregarEstados() {
         cmpUF.removeAllItems();
-        for(Estado estado: Estado.getListEstados()){
+        for (Estado estado : Estado.getListEstados()) {
             cmpUF.addItem(estado);
         }
     }
-    
-    public static PessoaFisicaFrame getInstance(){
-        if(frame==null){
+
+    public static PessoaFisicaFrame getInstance() {
+        if (frame == null) {
             frame = new PessoaFisicaFrame();
         }
         return frame;
     }
-    
-    public static PessoaFisicaFrame AbrirNovo(JDesktopPane desktop){
-        if(frame==null){
+
+    public static PessoaFisicaFrame AbrirNovo(JDesktopPane desktop) {
+        if (frame == null) {
             frame = new PessoaFisicaFrame();
             desktop.add(frame);
             frame.setVisible(true);
             return frame;
-        }else{
-            if(frame.isClosed()){
+        } else {
+            if (frame.isClosed()) {
                 frame = null;
                 return PessoaFisicaFrame.AbrirNovo(desktop);
-            }else{
+            } else {
                 int op = JOptionPane.showConfirmDialog(desktop, "Já existe uma janela aberta, você deseja fechar essa janela/nperder todo o conteúdo não salvo e abrir uma nova janela?", "Janela aberta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if(op==JOptionPane.YES_OPTION){
+                if (op == JOptionPane.YES_OPTION) {
                     frame.dispose();
                     return PessoaFisicaFrame.AbrirNovo(desktop);
                 }
@@ -1049,8 +1087,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             }
         }
     }
-    
-    public void maximizar(){
+
+    public void maximizar() {
         try {
             this.setIcon(false);
         } catch (PropertyVetoException ex) {
@@ -1058,53 +1096,53 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         }
         selecionar();
     }
-    
-    public void selecionar(){
+
+    public void selecionar() {
         try {
             this.setSelected(true);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void setCampos(PessoaFisica pessoa){
-        
+
+    private void setCampos(PessoaFisica pessoa) {
+
         setCamposPessoaFisica(pessoa);
-        
+
         setCamposPessoa(pessoa.getPessoa());
-        
+
         setCamposEndereco(pessoa.getPessoa().getEndereco());
-        
+
         ListarContatos(pessoa.getIdPessoa());
         ListarTelefones(pessoa.getIdPessoa());
     }
-    
-    private void setCamposPessoaFisica(PessoaFisica pessoa){
+
+    private void setCamposPessoaFisica(PessoaFisica pessoa) {
         idPessoaFisica = pessoa.getId();
         cmpCPF.setText(pessoa.getCpf());
         cmpRG.setText(pessoa.getRg());
         cmpDataNascimento.setDate(pessoa.getDataNascimento());
         cmpSexo.selectWithKeyChar(pessoa.getSexo());
     }
-    
-    private void setCamposEndereco(Endereco endereco){
+
+    private void setCamposEndereco(Endereco endereco) {
         idEndereco = endereco.getId();
-        System.out.println("ID End: "+idEndereco);
-        cmpCEP.setText(endereco.getCep()+"");
+        System.out.println("ID End: " + idEndereco);
+        cmpCEP.setText(endereco.getCep() + "");
         cmpLogradouro.setText(endereco.getLogradouro());
         cmpBairro.setText(endereco.getBairro());
         cmpCidade.setText(endereco.getCidade());
         cmpUF.setSelectedIndex(Estado.getIndexBySigla(endereco.getUf()));
     }
-    
-    private void setCamposPessoa(Pessoa pessoa){
-        cmpID.setText(pessoa.getId()+"");
+
+    private void setCamposPessoa(Pessoa pessoa) {
+        cmpID.setText(pessoa.getId() + "");
         cmpNome.setText(pessoa.getRazaoSocial());
-        cmpNumero.setText(pessoa.getNumeroEndereco()+"");
+        cmpNumero.setText(pessoa.getNumeroEndereco() + "");
         cmpComplemento.setText(pessoa.getComplementoEndereco());
     }
 
-    private void setTabelaContato(ArrayList<DbModel> contatos){
+    private void setTabelaContato(ArrayList<DbModel> contatos) {
         DefaultTableModel modelo = (DefaultTableModel) tblContatos.getModel();
         modelo.setNumRows(0);
         for (DbModel d : contatos) {
@@ -1112,31 +1150,31 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             modelo.addRow(new Object[]{c.getDescricao(), c.getContato()});
         }
     }
-    
-    private void setTabelaTelefone(ArrayList<DbModel> telefones){
+
+    private void setTabelaTelefone(ArrayList<DbModel> telefones) {
         DefaultTableModel modelo = (DefaultTableModel) tblTelefones.getModel();
         modelo.setNumRows(0);
         for (DbModel d : telefones) {
             Telefone t = (Telefone) d;
-            modelo.addRow(new Object[]{t.getDdd()+"", t.getTelefone(), t.getDescricao(), t.isPrincipal()});
+            modelo.addRow(new Object[]{t.getDdd() + "", t.getTelefone(), t.getDescricao(), t.isPrincipal()});
         }
     }
-    
-    private void setCamposContato(Contato contato){
+
+    private void setCamposContato(Contato contato) {
         idContato = contato.getId();
         cmpContato.setText(contato.getContato());
         cmpDescricaoContato.setSelectedItem(contato.getDescricao());
     }
-    
-    private void setCamposTelefone(Telefone telefone){
+
+    private void setCamposTelefone(Telefone telefone) {
         idTelefone = telefone.getId();
-        cmpDDD.setText(telefone.getDdd()+"");
+        cmpDDD.setText(telefone.getDdd() + "");
         cmpTelefone.setText(telefone.getTelefone());
         cmpDescricaoTelefone.setSelectedItem(telefone.getDescricao());
         cmpPrincipalTelefone.setSelected(telefone.isPrincipal());
     }
-    
-    private void setTabelaBusca(ArrayList<DbModel> pessoasFisica){
+
+    private void setTabelaBusca(ArrayList<DbModel> pessoasFisica) {
         DefaultTableModel modelo = (DefaultTableModel) tblBusca.getModel();
         modelo.setNumRows(0);
         for (DbModel d : pessoasFisica) {
@@ -1144,34 +1182,34 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             modelo.addRow(new Object[]{p.getCpf(), p.getPessoa().getRazaoSocial(), Data.format(p.getDataNascimento())});
         }
     }
-    
-    private void ListarContatos(int id){
+
+    private void ListarContatos(int id) {
         ArrayList<DbModel> listContatos = new ArrayList<>();
         ContatoDAO con;
         try {
             con = ContatoDAO.getInstance();
-            listContatos = con.getAllWhere("id_pessoa = "+id);
+            listContatos = con.getAllWhere("id_pessoa = " + id);
         } catch (SQLException ex) {
             Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         contatos = listContatos;
         setTabelaContato(listContatos);
     }
-    
-    private void ListarTelefones(int id){
+
+    private void ListarTelefones(int id) {
         ArrayList<DbModel> listTelefones = new ArrayList<>();
         TelefoneDAO tel;
         try {
             tel = TelefoneDAO.getInstance();
-            listTelefones = tel.getAllWhere("id_pessoa = "+id);
+            listTelefones = tel.getAllWhere("id_pessoa = " + id);
         } catch (SQLException ex) {
             Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         telefones = listTelefones;
         setTabelaTelefone(listTelefones);
     }
-    
-    private void ListarAllPessoasFisicas(){
+
+    private void ListarAllPessoasFisicas() {
         ArrayList<DbModel> pessoas = new ArrayList<>();
         PessoaFisicaDAO pes;
         try {
@@ -1182,8 +1220,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         }
         setTabelaBusca(pessoas);
     }
-    
-    private void limparCamposEndereco(){
+
+    private void limparCamposEndereco() {
         idEndereco = 0;
         cmpCEP.setText("");
         cmpLogradouro.setText("");
@@ -1191,47 +1229,49 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         cmpCidade.setText("");
         cmpUF.setSelectedIndex(0);
     }
-    
-    private void limparCamposPessoa(){
+
+    private void limparCamposPessoa() {
         cmpID.setText("0");
         cmpNome.setText("");
         cmpNumero.setText("");
         cmpComplemento.setText("");
     }
-    
-    private void limparCamposPessoaFisica(){
+
+    private void limparCamposPessoaFisica() {
         idPessoaFisica = 0;
         cmpCPF.setText("");
         cmpRG.setText("");
         cmpDataNascimento.setDate(null);
         cmpSexo.selectWithKeyChar('f');
     }
-    
-    private void limparCamposContatos(){
+
+    private void limparCamposContatos() {
         contatos = new ArrayList<>();
         setTabelaContato(contatos);
         limparCamposContato();
     }
-    private void limparCamposContato(){
+
+    private void limparCamposContato() {
         idContato = 0;
         cmpContato.setText("");
         cmpDescricaoContato.setSelectedIndex(0);
     }
-    private void limparCamposTelefones(){
+
+    private void limparCamposTelefones() {
         telefones = new ArrayList<>();
         setTabelaTelefone(telefones);
         limparCamposTelefone();
     }
-    
-    private void limparCamposTelefone(){
+
+    private void limparCamposTelefone() {
         idTelefone = 0;
         cmpDDD.setText("");
         cmpTelefone.setText("");
         cmpDescricaoTelefone.setSelectedIndex(0);
         cmpPrincipalTelefone.setSelected(true);
     }
-    
-    private Pessoa getPessoaFromCampos(){
+
+    private Pessoa getPessoaFromCampos() {
         Pessoa pessoa = new Pessoa();
         pessoa.setId(Integer.parseInt(cmpID.getText()));
         pessoa.setRazaoSocial(cmpNome.getText());
@@ -1240,8 +1280,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         pessoa.setIdEndereco(idEndereco);
         return pessoa;
     }
-    
-    private Endereco getEnderecoFromCampos(){
+
+    private Endereco getEnderecoFromCampos() {
         Endereco endereco = new Endereco();
         endereco.setId(idEndereco);
         endereco.setCep(Integer.parseInt(cmpCEP.getText()));
@@ -1251,8 +1291,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         endereco.setLogradouro(cmpLogradouro.getText());
         return endereco;
     }
-    
-    private PessoaFisica getPessoaFisicaFromCampos(){
+
+    private PessoaFisica getPessoaFisicaFromCampos() {
         PessoaFisica pessoa = new PessoaFisica();
         pessoa.setId(idPessoaFisica);
         pessoa.setCpf(cmpCPF.getText());
@@ -1262,8 +1302,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         pessoa.setSexo(cmpSexo.getSelectedItem().toString().toLowerCase().charAt(0));
         return pessoa;
     }
-    
-    private Contato getContatoFromCampos(){
+
+    private Contato getContatoFromCampos() {
         Contato con = new Contato();
         con.setId(idContato);
         con.setDescricao((String) cmpDescricaoContato.getSelectedItem());
@@ -1271,8 +1311,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         con.setIdPessoa(Integer.parseInt(cmpID.getText()));
         return con;
     }
-    
-    private Telefone getTelefoneFromCampos(){
+
+    private Telefone getTelefoneFromCampos() {
         Telefone tel = new Telefone();
         tel.setId(idTelefone);
         tel.setDdd(Integer.parseInt(cmpDDD.getText()));
