@@ -900,7 +900,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         modelo.setNumRows(0);
         for (DbModel d : pessoasFisica) {
             PessoaFisica p = (PessoaFisica) d;
-            modelo.addRow(new Object[]{p.getCpf(), p.getPessoa().getRazaoSocial(), p.getDataNascimento()});
+            modelo.addRow(new Object[]{p.getCpf(), p.getPessoa().getRazaoSocial(), Data.format(p.getDataNascimento())});
         }
     }
 }
