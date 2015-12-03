@@ -1,6 +1,8 @@
 
 package br.edu.ulbra.gde.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Thiago Moura
@@ -42,7 +44,7 @@ public class Estado {
         this.nome = nome;
         this.sigla = sigla;
     }
-
+    
     public String getNome() {
         return nome;
     }
@@ -68,4 +70,30 @@ public class Estado {
         return estados;
     }
     
+    public static ArrayList<Estado> getListEstados(){
+        ArrayList<Estado> listEstados = new ArrayList<>();
+        for(String estado: Estado.getEstados()){
+            String[] parte = estado.split(" - ");
+            listEstados.add(new Estado(parte[0],parte[1]));
+        }
+        return listEstados;
+    }
+
+    public static int getIndexBySigla(String sigla) {
+        int i = 0;
+        for(Estado estado: getListEstados()){
+            if(estado.getSigla().equalsIgnoreCase(sigla)) break;
+            i++;
+        }
+        return i;
+    }
+    
+    public static int getIndexByNome(String nome) {
+        int i = 0;
+        for(Estado estado: getListEstados()){
+            if(estado.getNome().equalsIgnoreCase(nome)) break;
+            i++;
+        }
+        return i;
+    }
 }
