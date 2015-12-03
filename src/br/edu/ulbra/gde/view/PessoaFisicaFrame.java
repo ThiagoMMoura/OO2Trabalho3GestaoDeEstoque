@@ -931,27 +931,6 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnProcurarCEPActionPerformed
 
     private void btnContatosExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContatosExcluirActionPerformed
-        
-    }//GEN-LAST:event_btnContatosExcluirActionPerformed
-
-    private void tblBuscaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBuscaMouseClicked
-        if(evt.getClickCount()==2){
-            int rowIndex = tblBusca.getSelectedRow();
-            if(rowIndex > -1){
-                String cpf = (String) tblBusca.getValueAt(rowIndex, 0);
-                PessoaFisicaDAO psf;
-                PessoaFisica pessoa;
-                try {
-                    psf = PessoaFisicaDAO.getInstance();
-                    pessoa = (PessoaFisica) psf.getAllWhere("cpf = '"+cpf+"'").get(0);
-                    setCampos(pessoa);
-                    guiasPessoaFisica.setSelectedIndex(ABA_CADASTRO);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }//GEN-LAST:event_tblBuscaMouseClicked
         if (idContato > 0) {
             try {
                 ContatoDAO cd = ContatoDAO.getInstance();
@@ -965,6 +944,26 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnContatosExcluirActionPerformed
+
+    private void tblBuscaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBuscaMouseClicked
+        if (evt.getClickCount() == 2) {
+            int rowIndex = tblBusca.getSelectedRow();
+            if (rowIndex > -1) {
+                String cpf = (String) tblBusca.getValueAt(rowIndex, 0);
+                PessoaFisicaDAO psf;
+                PessoaFisica pessoa;
+                try {
+                    psf = PessoaFisicaDAO.getInstance();
+                    pessoa = (PessoaFisica) psf.getAllWhere("cpf = '" + cpf + "'").get(0);
+                    setCampos(pessoa);
+                    guiasPessoaFisica.setSelectedIndex(ABA_CADASTRO);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_tblBuscaMouseClicked
+
 
     private void btnTelefonesExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelefonesExcluirActionPerformed
         if (idTelefone > 0) {
