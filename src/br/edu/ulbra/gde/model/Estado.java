@@ -67,5 +67,5 @@ public class Estado {
     public static String[] getEstados() {
         return estados;
     }
-
+    
 }
