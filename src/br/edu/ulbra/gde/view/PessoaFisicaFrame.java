@@ -25,6 +25,10 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private static PessoaFisicaFrame frame = null;
     private int idPessoaFisica;
     private int idEndereco;
+    private int idContato;
+    private int idTelefone;
+    private ArrayList<DbModel> contatos;
+    private ArrayList<DbModel> telefones;
     
     /**
      * Creates new form ClienteFrame
@@ -36,6 +40,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         limparCamposEndereco();
         limparCamposPessoa();
         limparCamposPessoaFisica();
+        limparCamposContatos();
+        limparCamposTelefones();
     }
     
     /**
@@ -78,6 +84,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         cmpNumero = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         cmpComplemento = new javax.swing.JTextField();
+        btnProcurarCEP = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -86,6 +93,9 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         cmpDescricaoContato = new javax.swing.JComboBox();
         jLabel15 = new javax.swing.JLabel();
         cmpContato = new javax.swing.JTextField();
+        btnContatosSalvar = new javax.swing.JButton();
+        btnContatosLimpar = new javax.swing.JButton();
+        btnContatosExcluir = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblTelefones = new javax.swing.JTable();
@@ -96,6 +106,9 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         jLabel18 = new javax.swing.JLabel();
         cmpDescricaoTelefone = new javax.swing.JComboBox();
         cmpPrincipalTelefone = new javax.swing.JCheckBox();
+        btnTelefonesSalvar = new javax.swing.JButton();
+        btnTelefonesLimpar = new javax.swing.JButton();
+        btnTelefonesExcluir = new javax.swing.JButton();
         guiaBuscaPessoaFisica = new javax.swing.JPanel();
         pnlBuscaCentral = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -239,6 +252,13 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
         jLabel13.setText("Complemento:");
 
+        btnProcurarCEP.setText("Procurar");
+        btnProcurarCEP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcurarCEPActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -250,6 +270,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmpCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnProcurarCEP)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -284,8 +306,9 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7)
                     .addComponent(cmpCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(cmpUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                    .addComponent(cmpUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnProcurarCEP))
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(cmpCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -332,6 +355,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblContatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblContatosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblContatos);
 
         jLabel14.setText("Descrição:");
@@ -341,6 +369,22 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
         jLabel15.setText("Contato:");
 
+        btnContatosSalvar.setText("Salvar");
+        btnContatosSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContatosSalvarActionPerformed(evt);
+            }
+        });
+
+        btnContatosLimpar.setText("Limpar");
+        btnContatosLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContatosLimparActionPerformed(evt);
+            }
+        });
+
+        btnContatosExcluir.setText("Excluir");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -349,19 +393,25 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmpDescricaoContato, 0, 225, Short.MAX_VALUE)
+                    .addComponent(cmpDescricaoContato, 0, 235, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14)
                             .addComponent(jLabel15))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(cmpContato))
+                    .addComponent(cmpContato)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(btnContatosExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnContatosLimpar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnContatosSalvar)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -370,7 +420,12 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmpContato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnContatosSalvar)
+                    .addComponent(btnContatosLimpar)
+                    .addComponent(btnContatosExcluir))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Contatos", jPanel4);
@@ -401,6 +456,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblTelefones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTelefonesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblTelefones);
 
         jLabel16.setText("DDD:");
@@ -414,11 +474,27 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         cmpPrincipalTelefone.setSelected(true);
         cmpPrincipalTelefone.setText("Principal");
 
+        btnTelefonesSalvar.setText("Salvar");
+        btnTelefonesSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTelefonesSalvarActionPerformed(evt);
+            }
+        });
+
+        btnTelefonesLimpar.setText("Limpar");
+        btnTelefonesLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTelefonesLimparActionPerformed(evt);
+            }
+        });
+
+        btnTelefonesExcluir.setText("Excluir");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,13 +510,19 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmpTelefone)
                             .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(cmpPrincipalTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cmpPrincipalTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnTelefonesExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTelefonesLimpar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTelefonesSalvar)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
@@ -455,7 +537,12 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                     .addComponent(cmpDescricaoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmpPrincipalTelefone)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTelefonesSalvar)
+                    .addComponent(btnTelefonesLimpar)
+                    .addComponent(btnTelefonesExcluir))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Telefones", jPanel5);
@@ -478,7 +565,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             .addGroup(pnlCadastroCentralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlCadastroCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(pnlCadastroCentralLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -646,6 +733,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         limparCamposEndereco();
         limparCamposPessoa();
         limparCamposPessoaFisica();
+        limparCamposContatos();
+        limparCamposTelefones();
         btnExcluir.setEnabled(!cmpID.getText().equals("0"));
     }//GEN-LAST:event_btnIncluirActionPerformed
 
@@ -678,18 +767,38 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         PessoaDAO pes;
         EnderecoDAO end;
         PessoaFisicaDAO psf;
+        ContatoDAO con;
+        TelefoneDAO tel;
         try {
             pes = PessoaDAO.getInstance();
             end = EnderecoDAO.getInstance();
             psf = PessoaFisicaDAO.getInstance();
+            con = ContatoDAO.getInstance();
+            tel = TelefoneDAO.getInstance();
             
             Endereco endereco = getEnderecoFromCampos();
-            end.save(endereco);
-            setCamposEndereco(endereco);
+            if(end.getAllWhere("cep = "+endereco.getCep()).isEmpty()){
+                end.save(endereco);
+                setCamposEndereco(endereco);
+            }
             
             Pessoa pessoa = getPessoaFromCampos();
             pes.save(pessoa);
             setCamposPessoa(pessoa);
+            
+            for(DbModel d: contatos){
+                Contato contato = (Contato) d;
+                contato.setIdPessoa(Integer.parseInt(cmpID.getText()));
+                con.save(contato);
+            }
+            setTabelaContato(contatos);
+            
+            for(DbModel d: telefones){
+                Telefone telefone = (Telefone) d;
+                telefone.setIdPessoa(Integer.parseInt(cmpID.getText()));
+                tel.save(telefone);
+            }
+            setTabelaTelefone(telefones);
             
             PessoaFisica fisica = getPessoaFisicaFromCampos();
             psf.save(fisica);
@@ -704,25 +813,115 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         limparCamposEndereco();
         limparCamposPessoa();
         limparCamposPessoaFisica();
+        limparCamposContatos();
+        limparCamposTelefones();
         btnExcluir.setEnabled(!cmpID.getText().equals("0"));
     }//GEN-LAST:event_btnLimparCadastroActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         if(guiasPessoaFisica.getSelectedIndex()==ABA_CADASTRO){
-            
+            PessoaDAO pes;
+            PessoaFisicaDAO psf;
+            ContatoDAO con;
+            TelefoneDAO tel;
+
+            try {
+                pes = PessoaDAO.getInstance();
+                psf = PessoaFisicaDAO.getInstance();
+                con = ContatoDAO.getInstance();
+                tel = TelefoneDAO.getInstance();
+                
+                for(DbModel d: telefones){
+                    tel.delete(d);
+                }
+                
+                for(DbModel d: contatos){
+                    con.delete(d);
+                }
+                
+                psf.delete(getPessoaFisicaFromCampos());
+                pes.delete(getPessoaFromCampos());
+                
+                limparCamposEndereco();
+                limparCamposPessoa();
+                limparCamposPessoaFisica();
+                limparCamposContatos();
+                limparCamposTelefones();
+                btnExcluir.setEnabled(!cmpID.getText().equals("0"));
+            } catch (SQLException ex) {
+                Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else{
             
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
+    private void btnContatosSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContatosSalvarActionPerformed
+        contatos.add(getContatoFromCampos());
+        setTabelaContato(contatos);
+    }//GEN-LAST:event_btnContatosSalvarActionPerformed
+
+    private void btnContatosLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContatosLimparActionPerformed
+        if(idContato>0){
+            contatos.add(getTelefoneFromCampos());
+        }
+        limparCamposContato();
+    }//GEN-LAST:event_btnContatosLimparActionPerformed
+
+    private void btnTelefonesLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelefonesLimparActionPerformed
+        if(idTelefone>0){
+            telefones.add(getContatoFromCampos());
+        }
+        limparCamposTelefone();
+    }//GEN-LAST:event_btnTelefonesLimparActionPerformed
+
+    private void tblTelefonesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTelefonesMouseClicked
+        if(evt.getClickCount()==2){
+            setCamposTelefone((Telefone)telefones.get(tblTelefones.getSelectedRow()));
+            telefones.remove(tblTelefones.getSelectedRow());
+        }
+    }//GEN-LAST:event_tblTelefonesMouseClicked
+
+    private void tblContatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblContatosMouseClicked
+        if(evt.getClickCount()==2){
+            setCamposContato((Contato)contatos.get(tblContatos.getSelectedRow()));
+            contatos.remove(tblContatos.getSelectedRow());
+        }
+    }//GEN-LAST:event_tblContatosMouseClicked
+
+    private void btnTelefonesSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelefonesSalvarActionPerformed
+        telefones.add(getTelefoneFromCampos());
+        setTabelaTelefone(telefones);
+    }//GEN-LAST:event_btnTelefonesSalvarActionPerformed
+
+    private void btnProcurarCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCEPActionPerformed
+        if(!cmpCEP.getText().isEmpty()){
+            EnderecoDAO end;
+            try {
+                end = EnderecoDAO.getInstance();
+                ArrayList<DbModel> res = end.getAllWhere("cep ="+cmpCEP.getText());
+                if(res.size()>0)setCamposEndereco((Endereco) res.get(0));
+            } catch (SQLException ex) {
+                Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnProcurarCEPActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnContatosExcluir;
+    private javax.swing.JButton btnContatosLimpar;
+    private javax.swing.JButton btnContatosSalvar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnIncluir;
     private javax.swing.JButton btnLimparCadastro;
+    private javax.swing.JButton btnProcurarCEP;
     private javax.swing.JButton btnSairBusca;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnTelefonesExcluir;
+    private javax.swing.JButton btnTelefonesLimpar;
+    private javax.swing.JButton btnTelefonesSalvar;
     private javax.swing.JTextField cmpBairro;
     private javax.swing.JFormattedTextField cmpCEP;
     private javax.swing.JTextField cmpCPF;
@@ -884,6 +1083,20 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         }
     }
     
+    private void setCamposContato(Contato contato){
+        idContato = contato.getId();
+        cmpContato.setText(contato.getContato());
+        cmpDescricaoContato.setSelectedItem(contato.getDescricao());
+    }
+    
+    private void setCamposTelefone(Telefone telefone){
+        idTelefone = telefone.getId();
+        cmpDDD.setText(telefone.getDdd()+"");
+        cmpTelefone.setText(telefone.getTelefone());
+        cmpDescricaoTelefone.setSelectedItem(telefone.getTelefone());
+        cmpPrincipalTelefone.setSelected(telefone.isPrincipal());
+    }
+    
     private void setTabelaBusca(ArrayList<DbModel> pessoasFisica){
         DefaultTableModel modelo = (DefaultTableModel) tblBusca.getModel();
         modelo.setNumRows(0);
@@ -894,27 +1107,29 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     }
     
     private void ListarContatos(int id){
-        ArrayList<DbModel> contatos = new ArrayList<>();
+        ArrayList<DbModel> listContatos = new ArrayList<>();
         ContatoDAO con;
         try {
             con = ContatoDAO.getInstance();
-            contatos = con.getAllWhere("id_pessoa = "+id);
+            listContatos = con.getAllWhere("id_pessoa = "+id);
         } catch (SQLException ex) {
             Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        setTabelaContato(contatos);
+        contatos = listContatos;
+        setTabelaContato(listContatos);
     }
     
     private void ListarTelefones(int id){
-        ArrayList<DbModel> telefones = new ArrayList<>();
+        ArrayList<DbModel> listTelefones = new ArrayList<>();
         TelefoneDAO tel;
         try {
             tel = TelefoneDAO.getInstance();
-            telefones = tel.getAllWhere("id_pessoa = "+id);
+            listTelefones = tel.getAllWhere("id_pessoa = "+id);
         } catch (SQLException ex) {
             Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        setTabelaTelefone(telefones);
+        telefones = listTelefones;
+        setTabelaTelefone(listTelefones);
     }
     
     private void ListarAllPessoasFisicas(){
@@ -953,6 +1168,30 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         cmpSexo.selectWithKeyChar('f');
     }
     
+    private void limparCamposContatos(){
+        contatos = new ArrayList<>();
+        setTabelaContato(contatos);
+        limparCamposContato();
+    }
+    private void limparCamposContato(){
+        idContato = 0;
+        cmpContato.setText("");
+        cmpDescricaoContato.setSelectedIndex(0);
+    }
+    private void limparCamposTelefones(){
+        telefones = new ArrayList<>();
+        setTabelaTelefone(telefones);
+        limparCamposTelefone();
+    }
+    
+    private void limparCamposTelefone(){
+        idTelefone = 0;
+        cmpDDD.setText("");
+        cmpTelefone.setText("");
+        cmpDescricaoTelefone.setSelectedIndex(0);
+        cmpPrincipalTelefone.setSelected(true);
+    }
+    
     private Pessoa getPessoaFromCampos(){
         Pessoa pessoa = new Pessoa();
         pessoa.setId(Integer.parseInt(cmpID.getText()));
@@ -983,5 +1222,24 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         pessoa.setDataNascimento(cmpDataNascimento.getDate());
         pessoa.setSexo(cmpSexo.getSelectedItem().toString().toLowerCase().charAt(0));
         return pessoa;
+    }
+    
+    private Contato getContatoFromCampos(){
+        Contato con = new Contato();
+        con.setId(idContato);
+        con.setDescricao((String) cmpDescricaoContato.getSelectedItem());
+        con.setContato(cmpContato.getText());
+        con.setIdPessoa(Integer.parseInt(cmpID.getText()));
+        return con;
+    }
+    
+    private Telefone getTelefoneFromCampos(){
+        Telefone tel = new Telefone();
+        tel.setId(idTelefone);
+        tel.setDdd(Integer.parseInt(cmpDDD.getText()));
+        tel.setTelefone(cmpTelefone.getText());
+        tel.setPrincipal(cmpPrincipalTelefone.isSelected());
+        tel.setIdPessoa(Integer.parseInt(cmpID.getText()));
+        return tel;
     }
 }
