@@ -11,7 +11,7 @@ import org.sqlite.util.StringUtils;
  */
 public abstract class GenericDAO {
 
-    public static final String WHERE_ID = " where id = ?";
+    public static final String WHERE_ID = "id = ?";
 
     protected Connection conexao;
     protected String nomeTabela;
@@ -39,7 +39,7 @@ public abstract class GenericDAO {
         String select = "select id, " + this.getStringColunas(", ")
                 + " from " + this.nomeTabela;
         if (whereClause != null) {
-            select += whereClause;
+            select += " where " + whereClause;
         }
         return select;
     }
@@ -55,7 +55,7 @@ public abstract class GenericDAO {
         String update = "update " + this.nomeTabela + " set "
                 + this.getStringColunas(" = ?,") + " = ?";
         if (whereClause != null) {
-            update += whereClause;
+            update += " where " + whereClause;
         }
         return update;
     }
@@ -63,7 +63,7 @@ public abstract class GenericDAO {
     public String getDelete(String whereClause) {
         String delete = "delete from " + this.nomeTabela;
         if (whereClause != null) {
-            delete += whereClause;
+            delete += " where " + whereClause;
         }
         return delete;
     }
@@ -85,6 +85,22 @@ public abstract class GenericDAO {
             stmt.close();
             return c;
         }
+    }
+
+    public ArrayList<DbModel> getAllWhere(String whereClause) throws SQLException {
+
+        PreparedStatement stmt = conexao.prepareStatement(this.getSelect(whereClause));
+
+        ArrayList<DbModel> lista = new ArrayList<>();
+
+        ResultSet retorno = stmt.executeQuery();
+        while (retorno.next()) {
+            lista.add(this.getObjectByResultSet(retorno));
+        }
+        retorno.close();
+
+        stmt.close();
+        return lista;
     }
 
     public ArrayList<DbModel> getAll() throws SQLException {
