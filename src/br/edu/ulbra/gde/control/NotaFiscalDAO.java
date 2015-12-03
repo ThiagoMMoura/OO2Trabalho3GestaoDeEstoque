@@ -1,5 +1,6 @@
 package br.edu.ulbra.gde.control;
 
+import br.edu.ulbra.gde.model.Data;
 import br.edu.ulbra.gde.model.DbModel;
 import br.edu.ulbra.gde.model.NotaFiscal;
 import java.sql.*;
@@ -8,7 +9,7 @@ import java.sql.*;
  *
  * @author Douglas, Thiago
  */
-public class NotaFiscalDAO extends GenericDAO  {
+public class NotaFiscalDAO extends GenericDAO {
 
     protected static NotaFiscalDAO objeto;
 
@@ -35,8 +36,8 @@ public class NotaFiscalDAO extends GenericDAO  {
         String chaveAcesso = resultSet.getString(this.colunas[2]);
         int entradaSaida = resultSet.getInt(this.colunas[3]);
         String naturezaOperacao = resultSet.getString(this.colunas[4]);
-        Date dataEmissao = Date.valueOf(resultSet.getString(this.colunas[5]));
-        Date dataEntradaSaida = Date.valueOf(resultSet.getString(this.colunas[6]));
+        java.util.Date dataEmissao = Data.parse(resultSet.getString(this.colunas[5]));
+        java.util.Date dataEntradaSaida = Data.parse(resultSet.getString(this.colunas[6]));
         int idPessoa = resultSet.getInt(this.colunas[7]);
         String informacoesComplementares = resultSet.getString(this.colunas[8]);
 
@@ -54,8 +55,8 @@ public class NotaFiscalDAO extends GenericDAO  {
         stmt.setString(3, nf.getChaveAcesso());
         stmt.setInt(4, nf.getEntradaSaida());
         stmt.setString(5, nf.getNaturezaOperacao());
-        stmt.setString(6, nf.getDataEmissao().toString());
-        stmt.setString(7, nf.getDataEntradaSaida().toString());
+        stmt.setString(6, Data.formatToSQL(nf.getDataEmissao()));
+        stmt.setString(7, Data.formatToSQL(nf.getDataEntradaSaida()));
         stmt.setInt(8, nf.getIdPessoa());
         stmt.setString(9, nf.getInformacoesComplementares());
         if (id) {

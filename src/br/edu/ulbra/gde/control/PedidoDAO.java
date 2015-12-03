@@ -1,5 +1,6 @@
 package br.edu.ulbra.gde.control;
 
+import br.edu.ulbra.gde.model.Data;
 import br.edu.ulbra.gde.model.DbModel;
 import br.edu.ulbra.gde.model.Pedido;
 import java.sql.*;
@@ -29,7 +30,7 @@ public class PedidoDAO extends GenericDAO {
     public Pedido getObjectByResultSet(ResultSet resultSet) throws SQLException {
         int idRet = resultSet.getInt("id");
         String cnpj = resultSet.getString(this.colunas[0]);
-        Date data = Date.valueOf(resultSet.getString(this.colunas[1]));
+        java.util.Date data = Data.parse(resultSet.getString(this.colunas[1]));
         String observacao = resultSet.getString(this.colunas[2]);
         String descricao = resultSet.getString(this.colunas[3]);
 
@@ -40,7 +41,7 @@ public class PedidoDAO extends GenericDAO {
     public void setStatementParameters(PreparedStatement stmt, DbModel dm, boolean id) throws SQLException {
         Pedido pedido = (Pedido) dm;
         stmt.setString(1, pedido.getCnpj());
-        stmt.setString(2, pedido.getData().toString());
+        stmt.setString(2, Data.formatToSQL(pedido.getData()));
         stmt.setString(3, pedido.getObservacao());
         stmt.setString(4, pedido.getDescricao());
         if (id) {
