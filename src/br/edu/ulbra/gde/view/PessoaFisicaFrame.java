@@ -777,6 +777,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             tel = TelefoneDAO.getInstance();
             
             Endereco endereco = getEnderecoFromCampos();
+            System.out.println("ID endereco: "+idEndereco);
             if(end.getAllWhere("cep = "+endereco.getCep()).isEmpty()){
                 end.save(endereco);
                 setCamposEndereco(endereco);
@@ -803,6 +804,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             PessoaFisica fisica = getPessoaFisicaFromCampos();
             psf.save(fisica);
             setCampos(fisica);
+            JOptionPane.showMessageDialog(this, "Salvo com sucesso!", "Salvar", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1051,6 +1053,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     
     private void setCamposEndereco(Endereco endereco){
         idEndereco = endereco.getId();
+        System.out.println("ID End: "+idEndereco);
         cmpCEP.setText(endereco.getCep()+"");
         cmpLogradouro.setText(endereco.getLogradouro());
         cmpBairro.setText(endereco.getBairro());

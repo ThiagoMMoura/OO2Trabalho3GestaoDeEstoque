@@ -34,7 +34,7 @@ public class EnderecoDAO extends GenericDAO {
         String cidade = resultSet.getString(this.colunas[3]);
         String uf = resultSet.getString(this.colunas[4]);
         
-        return new Endereco(cep, cep, logradouro, bairro, cidade, uf);
+        return new Endereco(idRet, cep, logradouro, bairro, cidade, uf);
     }
 
     @Override
