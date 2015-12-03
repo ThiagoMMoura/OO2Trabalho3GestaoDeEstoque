@@ -5,12 +5,14 @@
  */
 package br.edu.ulbra.gde.view;
 
-import br.edu.ulbra.gde.model.Estado;
+import br.edu.ulbra.gde.control.*;
+import br.edu.ulbra.gde.model.*;
 import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDesktopPane;
-import javax.swing.JOptionPane;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +20,8 @@ import javax.swing.JOptionPane;
  */
 public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private static PessoaFisicaFrame frame = null;
+    private int idPessoaFisica;
+    private int idEndereco;
     
     /**
      * Creates new form ClienteFrame
@@ -26,6 +30,8 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         initComponents();
         CarregarEstados();
         this.isClosed = true;
+        this.idEndereco = 0;
+        this.idPessoaFisica = 0;
     }
     
     /**
@@ -67,7 +73,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         jLabel12 = new javax.swing.JLabel();
         cmpNumero = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        cmpComplemento = new javax.swing.JTextField();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -104,24 +110,23 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         setTitle("Pessoa Fisica");
         setToolTipText("");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosed(evt);
             }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
             }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameOpened(evt);
-            }
         });
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
         guiasPessoaFisica.setToolTipText("");
         guiasPessoaFisica.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -132,9 +137,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
         guiaCadastroPessoaFisica.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Identificação", 1, 0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Identificação", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         cmpID.setEditable(false);
+        cmpID.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        cmpID.setText("0");
 
         jLabel1.setText("ID:");
 
@@ -209,7 +216,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Endereço", 1, 0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Endereço", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jLabel7.setText("CEP:");
 
@@ -261,7 +268,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1)))
+                        .addComponent(cmpComplemento)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -290,7 +297,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                     .addComponent(jLabel12)
                     .addComponent(cmpNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmpComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -482,17 +489,17 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
         tblBusca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+                {null, null, null}
             },
             new String [] {
-                "CNPJ", "Nome Fantasia"
+                "CPF", "Nome", "Data Nascimento"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -548,6 +555,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         btnExcluir.setText("Excluir");
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlBarraFerramentasLayout = new javax.swing.GroupLayout(pnlBarraFerramentas);
         pnlBarraFerramentas.setLayout(pnlBarraFerramentasLayout);
@@ -597,6 +609,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             btnExcluir.setVisible(true);
             btnSairBusca.setVisible(true);
             btnEditar.setVisible(true);
+            ListarAllPessoasFisicas();
         }
     }//GEN-LAST:event_guiasPessoaFisicaStateChanged
 
@@ -620,6 +633,32 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         this.isClosed = true;
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        PessoaDAO pes;
+        EnderecoDAO end;
+        PessoaFisicaDAO psf;
+        try {
+            pes = PessoaDAO.getInstance();
+            end = EnderecoDAO.getInstance();
+            psf = PessoaFisicaDAO.getInstance();
+            
+            Endereco endereco = getEnderecoFromCampos();
+            end.save(endereco);
+            setCamposEndereco(endereco);
+            
+            Pessoa pessoa = getPessoaFromCampos();
+            pes.save(pessoa);
+            setCamposPessoa(pessoa);
+            
+            PessoaFisica fisica = getPessoaFisicaFromCampos();
+            psf.save(fisica);
+            setCampos(fisica);
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
@@ -631,6 +670,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField cmpCEP;
     private javax.swing.JTextField cmpCPF;
     private javax.swing.JTextField cmpCidade;
+    private javax.swing.JTextField cmpComplemento;
     private javax.swing.JTextField cmpContato;
     private javax.swing.JTextField cmpDDD;
     private com.toedter.calendar.JDateChooser cmpDataNascimento;
@@ -674,7 +714,6 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel pnlBarraFerramentas;
     private javax.swing.JPanel pnlBuscaCentral;
     private javax.swing.JPanel pnlCadastroCentral;
@@ -732,6 +771,136 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             this.setSelected(true);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void setCampos(PessoaFisica pessoa){
+        
+        setCamposPessoaFisica(pessoa);
+        
+        setCamposPessoa(pessoa.getPessoa());
+        
+        setCamposEndereco(pessoa.getPessoa().getEndereco());
+        
+        ListarContatos(pessoa.getIdPessoa());
+        ListarTelefones(pessoa.getIdPessoa());
+    }
+    
+    private void setCamposPessoaFisica(PessoaFisica pessoa){
+        idPessoaFisica = pessoa.getId();
+        cmpCPF.setText(pessoa.getCpf());
+        cmpRG.setText(pessoa.getRg());
+        cmpDataNascimento.setDate(pessoa.getDataNascimento());
+        cmpSexo.selectWithKeyChar(pessoa.getSexo());
+    }
+    private void ListarContatos(int id){
+        ArrayList<DbModel> contatos = new ArrayList<>();
+        ContatoDAO con;
+        try {
+            con = ContatoDAO.getInstance();
+            contatos = con.getAllWhere("id_pessoa = "+id);
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setTabelaContato(contatos);
+    }
+    
+    private void ListarTelefones(int id){
+        ArrayList<DbModel> telefones = new ArrayList<>();
+        TelefoneDAO tel;
+        try {
+            tel = TelefoneDAO.getInstance();
+            telefones = tel.getAllWhere("id_pessoa = "+id);
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setTabelaTelefone(telefones);
+    }
+    
+    private void ListarAllPessoasFisicas(){
+        ArrayList<DbModel> pessoas = new ArrayList<>();
+        PessoaFisicaDAO pes;
+        try {
+            pes = PessoaFisicaDAO.getInstance();
+            pessoas = pes.getAll();
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setTabelaBusca(pessoas);
+    }
+    
+    private void setCamposEndereco(Endereco endereco){
+        idEndereco = endereco.getId();
+        cmpCEP.setText(endereco.getCep()+"");
+        cmpLogradouro.setText(endereco.getLogradouro());
+        cmpBairro.setText(endereco.getBairro());
+        cmpCidade.setText(endereco.getCidade());
+        cmpUF.setSelectedItem(0);//Fazer
+    }
+    
+    private void setCamposPessoa(Pessoa pessoa){
+        cmpID.setText(pessoa.getId()+"");
+        cmpNome.setText(pessoa.getRazaoSocial());
+        cmpNumero.setText(pessoa.getNumeroEndereco()+"");
+        cmpComplemento.setText(pessoa.getComplementoEndereco());
+    }
+    
+    private void setTabelaContato(ArrayList<DbModel> contatos){
+        DefaultTableModel modelo = (DefaultTableModel) tblContatos.getModel();
+        modelo.setNumRows(0);
+        for (DbModel d : contatos) {
+            Contato c = (Contato) d;
+            modelo.addRow(new Object[]{c.getDescricao(), c.getContato()});
+        }
+    }
+    
+    private void setTabelaTelefone(ArrayList<DbModel> telefones){
+        DefaultTableModel modelo = (DefaultTableModel) tblTelefones.getModel();
+        modelo.setNumRows(0);
+        for (DbModel d : telefones) {
+            Telefone t = (Telefone) d;
+            modelo.addRow(new Object[]{t.getDdd()+"", t.getTelefone(), t.getDescricao(), t.isPrincipal()});
+        }
+    }
+    
+    private Pessoa getPessoaFromCampos(){
+        Pessoa pessoa = new Pessoa();
+        pessoa.setId(Integer.parseInt(cmpID.getText()));
+        pessoa.setRazaoSocial(cmpNome.getText());
+        pessoa.setComplementoEndereco(cmpComplemento.getText());
+        pessoa.setNumeroEndereco(Integer.parseInt(cmpNumero.getText()));
+        pessoa.setIdEndereco(idEndereco);
+        return pessoa;
+    }
+    
+    private Endereco getEnderecoFromCampos(){
+        Endereco endereco = new Endereco();
+        endereco.setId(idEndereco);
+        endereco.setCep(Integer.parseInt(cmpCEP.getText()));
+        endereco.setUf(((Estado) cmpUF.getSelectedItem()).getSigla());
+        endereco.setCidade(cmpCidade.getText());
+        endereco.setBairro(cmpBairro.getText());
+        endereco.setLogradouro(cmpLogradouro.getText());
+        return endereco;
+    }
+    
+    private PessoaFisica getPessoaFisicaFromCampos(){
+        PessoaFisica pessoa = new PessoaFisica();
+        pessoa.setId(idPessoaFisica);
+        pessoa.setCpf(cmpCPF.getText());
+        pessoa.setRg(cmpRG.getText());
+        pessoa.setIdPessoa(Integer.parseInt(cmpID.getText()));
+        pessoa.setDataNascimento(cmpDataNascimento.getDate());
+        pessoa.setSexo(cmpSexo.getSelectedItem().toString().toLowerCase().charAt(0));
+        return pessoa;
+    }
+    
+    private void setTabelaBusca(ArrayList<DbModel> pessoasFisica){
+        DefaultTableModel modelo = (DefaultTableModel) tblBusca.getModel();
+        modelo.setNumRows(0);
+        for (DbModel d : pessoasFisica) {
+            PessoaFisica p = (PessoaFisica) d;
+            modelo.addRow(new Object[]{p.getCpf(), p.getPessoa().getRazaoSocial(), p.getDataNascimento()});
         }
     }
 }
