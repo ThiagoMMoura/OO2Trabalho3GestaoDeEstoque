@@ -26,6 +26,10 @@ public class Produto extends DbModel {
         this.unidade = unidade;
         this.ativo = ativo;
     }
+    
+    public Produto(){
+        this(0,"","","",0f,0f,0,"",true);
+    }
 
     public String getRef() {
         return ref;
