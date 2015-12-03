@@ -156,6 +156,12 @@ public abstract class GenericDAO {
         }
     }
 
+    public void deleteWhere(String whereClause) throws SQLException {
+        PreparedStatement stmt = conexao.prepareStatement(this.getDelete(whereClause));
+        stmt.execute();
+        stmt.close();
+    }
+
     public abstract DbModel getObjectByResultSet(ResultSet resultSet) throws SQLException;
 
     public abstract void setStatementParameters(PreparedStatement stmt, DbModel dm, boolean id)
