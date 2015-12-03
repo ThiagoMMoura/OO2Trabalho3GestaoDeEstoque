@@ -1,5 +1,6 @@
 package br.edu.ulbra.gde.control;
 
+import br.edu.ulbra.gde.model.Data;
 import br.edu.ulbra.gde.model.DbModel;
 import br.edu.ulbra.gde.model.PessoaFisica;
 import java.sql.*;
@@ -32,7 +33,7 @@ public class PessoaFisicaDAO extends GenericDAO {
         String cpf = resultSet.getString(this.colunas[0]);
         String rg = resultSet.getString(this.colunas[1]);
         int idPessoa = resultSet.getInt(this.colunas[2]);
-        Date dataNascimento = Date.valueOf(resultSet.getString(this.colunas[3]));
+        java.util.Date dataNascimento = Data.parse(resultSet.getString(this.colunas[3]));
         char sexo = resultSet.getString(this.colunas[4]).charAt(0);
 
         return new PessoaFisica(id, cpf, rg, idPessoa, dataNascimento, sexo);
@@ -45,7 +46,7 @@ public class PessoaFisicaDAO extends GenericDAO {
         stmt.setString(1, pessoaFisica.getCpf());
         stmt.setString(2, pessoaFisica.getRg());
         stmt.setInt(3, pessoaFisica.getIdPessoa());
-        stmt.setString(4, pessoaFisica.getDataNascimento().toString());
+        stmt.setString(4, Data.formatToSQL(pessoaFisica.getDataNascimento()));
         stmt.setString(5, String.valueOf(pessoaFisica.getSexo()));
         if (id) {
             stmt.setInt(6, pessoaFisica.getId());
