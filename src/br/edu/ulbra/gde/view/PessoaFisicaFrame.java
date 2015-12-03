@@ -937,12 +937,12 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 Contato c = (Contato) cd.getObjectById(idContato);
                 cd.delete(c);
                 contatos.remove(c);
-                limparCamposContato();
-                setTabelaContato(contatos);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
+        limparCamposContato();
+        setTabelaContato(contatos);
     }//GEN-LAST:event_btnContatosExcluirActionPerformed
 
     private void tblBuscaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBuscaMouseClicked
@@ -972,13 +972,15 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 Telefone c = (Telefone) td.getObjectById(idTelefone);
                 td.delete(c);
                 telefones.remove(c);
-                limparCamposTelefone();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        } else if (tblTelefones.getSelectedRow() > -1) {
-            telefones.remove(tblTelefones.getSelectedRow());
-        }
+        } 
+//        else if (tblTelefones.getSelectedRow() > -1) {
+//            telefones.remove(tblTelefones.getSelectedRow());
+//        }
+                       
+        limparCamposTelefone();
         setTabelaTelefone(telefones);
     }//GEN-LAST:event_btnTelefonesExcluirActionPerformed
 
