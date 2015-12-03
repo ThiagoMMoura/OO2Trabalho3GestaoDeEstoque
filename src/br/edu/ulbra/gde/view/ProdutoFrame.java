@@ -12,13 +12,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Camila
  */
 public class ProdutoFrame extends javax.swing.JInternalFrame {
-
+    public static final int ABA_CADASTRO = 0;
+    public static final int ABA_BUSCA = 1;
+    public static final String ATIVO = "ATIVO";
+    public static final String INATIVO = "INATIVO";
+    
     private static ProdutoFrame frame = null;
     /**
      * Creates new form ProdutoFrame
@@ -26,6 +31,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     private ProdutoFrame() {
         initComponents();
         this.isClosed = true;
+        limparCamposProduto();
     }
     
     public static ProdutoFrame getInstance(){
@@ -72,8 +78,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         btnSair = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnIncluir = new javax.swing.JButton();
-        btnExcluir = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
+        btnLimpar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -91,6 +97,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jLabel1.setText("ID:");
 
         cmpID.setEditable(false);
+        cmpID.setText("0");
+        cmpID.setToolTipText("");
 
         jLabel2.setText("REF.:");
 
@@ -240,6 +248,11 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblBusca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBuscaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblBusca);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -267,15 +280,30 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnIncluir.setText("Incluir");
-
-        btnExcluir.setText("Excluir");
+        btnIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncluirActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
+            }
+        });
+
+        btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
             }
         });
 
@@ -285,9 +313,9 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(193, Short.MAX_VALUE)
-                .addComponent(btnSalvar)
+                .addComponent(btnLimpar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnExcluir)
+                .addComponent(btnSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnIncluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -304,8 +332,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     .addComponent(btnSair)
                     .addComponent(btnEditar)
                     .addComponent(btnIncluir)
-                    .addComponent(btnExcluir)
-                    .addComponent(btnSalvar))
+                    .addComponent(btnSalvar)
+                    .addComponent(btnLimpar))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -315,18 +343,18 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guiasProdutoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_guiasProdutoStateChanged
-           if(guiasProduto.getSelectedIndex()==0){
+           if(guiasProduto.getSelectedIndex()==ABA_CADASTRO){
             btnIncluir.setVisible(false);
             btnSalvar.setVisible(true);
-            btnExcluir.setVisible(true);
             btnSair.setVisible(true);
             btnEditar.setVisible(false);
+            btnLimpar.setVisible(true);
         }else{
             btnIncluir.setVisible(true);
             btnSalvar.setVisible(false);
-            btnExcluir.setVisible(true);
             btnSair.setVisible(true);
             btnEditar.setVisible(true);
+            btnLimpar.setVisible(false);
             ListarAllProdutos();
         }
     }//GEN-LAST:event_guiasProdutoStateChanged
@@ -343,10 +371,56 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             Produto produto = getProdutoFromCampos();
             pro.save(produto);
             setCamposProduto(produto);
+            JOptionPane.showMessageDialog(this, "Salvo com sucesso!", "Salvar", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        limparCamposProduto();
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int rowIndex = tblBusca.getSelectedRow();
+        if(rowIndex > -1){
+            String ref = (String) tblBusca.getValueAt(rowIndex, 0);
+            ProdutoDAO pro;
+            Produto produto;
+            try {
+                pro = ProdutoDAO.getInstance();
+                produto = (Produto) pro.getAllWhere("ref = '"+ref+"'").get(0);
+                setCamposProduto(produto);
+                guiasProduto.setSelectedIndex(ABA_CADASTRO);
+            } catch (SQLException ex) {
+                Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
+        limparCamposProduto();
+        guiasProduto.setSelectedIndex(ABA_CADASTRO);
+    }//GEN-LAST:event_btnIncluirActionPerformed
+
+    private void tblBuscaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBuscaMouseClicked
+        if(evt.getClickCount()==2){
+            int rowIndex = tblBusca.getSelectedRow();
+            if(rowIndex > -1){
+                String ref = (String) tblBusca.getValueAt(rowIndex, 0);
+                ProdutoDAO pro;
+                Produto produto;
+                try {
+                    pro = ProdutoDAO.getInstance();
+                    produto = (Produto) pro.getAllWhere("ref = '"+ref+"'").get(0);
+                    setCamposProduto(produto);
+                    guiasProduto.setSelectedIndex(ABA_CADASTRO);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_tblBuscaMouseClicked
 
     public static ProdutoFrame AbrirNovo(JDesktopPane desktop) {
         if (frame == null) {
@@ -388,8 +462,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnIncluir;
+    private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JTextField cmpDescricao;
@@ -429,7 +503,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         produto.setLucro(Float.parseFloat(cmpLucro.getText()));
         produto.setQuantidade(Integer.parseInt(cmpQuantidade.getText()));
         produto.setUnidade(cmpUnidade.getText());
-        produto.setAtivo(cmpSituacao.getSelectedItem().equals("ATIVO"));
+        produto.setAtivo(cmpSituacao.getSelectedItem().equals(ATIVO));
         return produto;
     }
     
@@ -442,7 +516,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         cmpLucro.setText(produto.getLucro()+"");
         cmpQuantidade.setText(produto.getQuantidade()+"");
         cmpUnidade.setText(produto.getUnidade());
-        cmpSituacao.setSelectedItem(produto.isAtivo()?"ATIVO":"INATIVO");
+        cmpSituacao.setSelectedItem(produto.isAtivo()?ATIVO:INATIVO);
     }
     
     private void ListarAllProdutos(){
@@ -457,7 +531,24 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         setTabelaBusca(produto);
     }
     
-    private void setTabelaBusca(ArrayList<DbModel> pessoasFisica){
-        
+    private void setTabelaBusca(ArrayList<DbModel> produto){
+        DefaultTableModel modelo = (DefaultTableModel) tblBusca.getModel();
+        modelo.setNumRows(0);
+        for (DbModel d : produto) {
+            Produto p = (Produto) d;
+            modelo.addRow(new Object[]{p.getRef(), p.getDescricao(), p.getPreco(),p.getQuantidade()});
+        }
+    }
+    
+    private void limparCamposProduto(){
+        cmpID.setText("0");
+        cmpREF.setText("");
+        cmpREFFornecedor.setText("");
+        cmpDescricao.setText("");
+        cmpValor.setText("0.0");
+        cmpLucro.setText("0.0");
+        cmpQuantidade.setText("0");
+        cmpUnidade.setText("");
+        cmpSituacao.setSelectedItem(ATIVO);
     }
 }

@@ -384,6 +384,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         });
 
         btnContatosExcluir.setText("Excluir");
+        btnContatosExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContatosExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -600,6 +605,11 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblBusca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBuscaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblBusca);
@@ -850,6 +860,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
                 limparCamposContatos();
                 limparCamposTelefones();
                 btnExcluir.setEnabled(!cmpID.getText().equals("0"));
+                JOptionPane.showMessageDialog(this, "Registro excluido com sucesso!", "Excluir", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -861,6 +872,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private void btnContatosSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContatosSalvarActionPerformed
         contatos.add(getContatoFromCampos());
         setTabelaContato(contatos);
+        limparCamposContato();
     }//GEN-LAST:event_btnContatosSalvarActionPerformed
 
     private void btnContatosLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContatosLimparActionPerformed
@@ -894,6 +906,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
     private void btnTelefonesSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelefonesSalvarActionPerformed
         telefones.add(getTelefoneFromCampos());
         setTabelaTelefone(telefones);
+        limparCamposTelefone();
     }//GEN-LAST:event_btnTelefonesSalvarActionPerformed
 
     private void btnProcurarCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarCEPActionPerformed
@@ -908,6 +921,29 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnProcurarCEPActionPerformed
+
+    private void btnContatosExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContatosExcluirActionPerformed
+        
+    }//GEN-LAST:event_btnContatosExcluirActionPerformed
+
+    private void tblBuscaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBuscaMouseClicked
+        if(evt.getClickCount()==2){
+            int rowIndex = tblBusca.getSelectedRow();
+            if(rowIndex > -1){
+                String cpf = (String) tblBusca.getValueAt(rowIndex, 0);
+                PessoaFisicaDAO psf;
+                PessoaFisica pessoa;
+                try {
+                    psf = PessoaFisicaDAO.getInstance();
+                    pessoa = (PessoaFisica) psf.getAllWhere("cpf = '"+cpf+"'").get(0);
+                    setCampos(pessoa);
+                    guiasPessoaFisica.setSelectedIndex(ABA_CADASTRO);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PessoaFisicaFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_tblBuscaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1096,7 +1132,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         idTelefone = telefone.getId();
         cmpDDD.setText(telefone.getDdd()+"");
         cmpTelefone.setText(telefone.getTelefone());
-        cmpDescricaoTelefone.setSelectedItem(telefone.getTelefone());
+        cmpDescricaoTelefone.setSelectedItem(telefone.getDescricao());
         cmpPrincipalTelefone.setSelected(telefone.isPrincipal());
     }
     
@@ -1242,6 +1278,7 @@ public class PessoaFisicaFrame extends javax.swing.JInternalFrame {
         tel.setDdd(Integer.parseInt(cmpDDD.getText()));
         tel.setTelefone(cmpTelefone.getText());
         tel.setPrincipal(cmpPrincipalTelefone.isSelected());
+        tel.setDescricao((String) cmpDescricaoTelefone.getSelectedItem());
         tel.setIdPessoa(Integer.parseInt(cmpID.getText()));
         return tel;
     }
