@@ -12,8 +12,11 @@ import br.edu.ulbra.gde.view.*;
  * @author Thiago Moura
  */
 public class FrameMain extends javax.swing.JFrame {
+
     private PessoaFisicaFrame pFisica = PessoaFisicaFrame.getInstance();
     private PessoaJuridicaFrame pJuridica = PessoaJuridicaFrame.getInstance();
+    private NotaFiscalFrame notaFiscalFrame = NotaFiscalFrame.getInstance();
+
     /**
      * Creates new form FrameMain
      */
@@ -31,6 +34,7 @@ public class FrameMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu2 = new javax.swing.JMenu();
         jScrollPane1 = new javax.swing.JScrollPane();
         desktopMain = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -38,6 +42,10 @@ public class FrameMain extends javax.swing.JFrame {
         menuPessoa = new javax.swing.JMenu();
         mitPessoaFisica = new javax.swing.JMenuItem();
         mitPessoaJuridica = new javax.swing.JMenuItem();
+        menuNotaFiscal = new javax.swing.JMenu();
+        mitNotaFiscal = new javax.swing.JMenuItem();
+
+        jMenu2.setText("jMenu2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,7 +57,7 @@ public class FrameMain extends javax.swing.JFrame {
         );
         desktopMainLayout.setVerticalGroup(
             desktopMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
+            .addGap(0, 472, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(desktopMain);
@@ -77,6 +85,18 @@ public class FrameMain extends javax.swing.JFrame {
 
         jMenuBar1.add(menuPessoa);
 
+        menuNotaFiscal.setText("Nota Fiscal");
+
+        mitNotaFiscal.setText("Nota Fiscal");
+        mitNotaFiscal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitNotaFiscalActionPerformed(evt);
+            }
+        });
+        menuNotaFiscal.add(mitNotaFiscal);
+
+        jMenuBar1.add(menuNotaFiscal);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -94,28 +114,40 @@ public class FrameMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mitPessoaFisicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPessoaFisicaActionPerformed
-        if(pFisica.isClosed()){
+        if (pFisica.isClosed()) {
             pFisica = PessoaFisicaFrame.AbrirNovo(desktopMain);
-        }else{
-            if(pFisica.isIcon()){
+        } else {
+            if (pFisica.isIcon()) {
                 pFisica.maximizar();
-            }else{
+            } else {
                 pFisica.selecionar();
             }
         }
     }//GEN-LAST:event_mitPessoaFisicaActionPerformed
 
     private void mitPessoaJuridicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPessoaJuridicaActionPerformed
-        if(pJuridica.isClosed()){
+        if (pJuridica.isClosed()) {
             pJuridica = PessoaJuridicaFrame.AbrirNovo(desktopMain);
-        }else{
-            if(pJuridica.isIcon()){
+        } else {
+            if (pJuridica.isIcon()) {
                 pJuridica.maximizar();
-            }else{
+            } else {
                 pJuridica.selecionar();
             }
         }
     }//GEN-LAST:event_mitPessoaJuridicaActionPerformed
+
+    private void mitNotaFiscalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitNotaFiscalActionPerformed
+        if (notaFiscalFrame.isClosed()) {
+            notaFiscalFrame = NotaFiscalFrame.AbrirNovo(desktopMain);
+        } else {
+            if (notaFiscalFrame.isIcon()) {
+                notaFiscalFrame.maximizar();
+            } else {
+                notaFiscalFrame.selecionar();
+            }
+        }
+     }//GEN-LAST:event_mitNotaFiscalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,11 +187,14 @@ public class FrameMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopMain;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu menuNotaFiscal;
     private javax.swing.JMenu menuPessoa;
+    private javax.swing.JMenuItem mitNotaFiscal;
     private javax.swing.JMenuItem mitPessoaFisica;
     private javax.swing.JMenuItem mitPessoaJuridica;
     // End of variables declaration//GEN-END:variables
-    
+
 }
