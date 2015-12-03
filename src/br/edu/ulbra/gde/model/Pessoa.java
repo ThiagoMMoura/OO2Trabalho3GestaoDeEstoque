@@ -1,5 +1,9 @@
 package br.edu.ulbra.gde.model;
 
+import br.edu.ulbra.gde.control.*;
+import java.sql.SQLException;
+import java.util.logging.*;
+
 /**
  *
  * @author Thiago Moura
@@ -56,11 +60,25 @@ public class Pessoa extends DbModel {
     }
 
     public Endereco getEndereco() {
+        if(endereco==null){
+            endereco = getEnderecoById(idEndereco);
+        }
         return endereco;
     }
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
+    
+    private Endereco getEnderecoById(int id){
+        EnderecoDAO ed;
+        Endereco e = null;
+        try {
+            ed = EnderecoDAO.getInstance();
+            e = (Endereco) ed.getObjectById(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return e;
+    }
 }

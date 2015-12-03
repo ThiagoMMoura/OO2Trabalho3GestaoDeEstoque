@@ -1,6 +1,10 @@
 package br.edu.ulbra.gde.model;
 
+import br.edu.ulbra.gde.control.PessoaDAO;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -76,7 +80,22 @@ public class PessoaFisica extends DbModel {
     }
 
     public Pessoa getPessoa() {
+        if(pessoa==null){
+            pessoa = getPessoaById(this.idPessoa);
+        }
         return pessoa;
+    }
+    
+    private Pessoa getPessoaById(int id){
+        PessoaDAO ps;
+        Pessoa p = null;
+        try {
+            ps = PessoaDAO.getInstance();
+            p = (Pessoa) ps.getObjectById(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return p;
     }
 
     public void setPessoa(Pessoa pessoa) {
