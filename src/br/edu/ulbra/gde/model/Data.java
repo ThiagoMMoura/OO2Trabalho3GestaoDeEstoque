@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class Data {
 
     public static String format(Date data) {
-        return DateFormat.getDateInstance().format(data);
+        return data==null?"":DateFormat.getDateInstance().format(data);
     }
 
     public static String formatToSQL(Date data) {
