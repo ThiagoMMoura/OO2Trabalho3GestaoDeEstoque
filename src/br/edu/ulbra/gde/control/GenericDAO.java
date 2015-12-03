@@ -121,8 +121,6 @@ public abstract class GenericDAO {
 
     public void save(DbModel dm) throws SQLException {
 
-        DbModel dbModel = dm;
-
         PreparedStatement stmt;
         DbModel c = this.getObjectById(dm.getId());
 
